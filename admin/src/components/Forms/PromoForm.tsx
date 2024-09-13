@@ -2,6 +2,7 @@ import React from 'react';
 import { Modal, Form, Input, InputNumber, message } from 'antd';
 import { useAppDispatch } from '../../store/hook';
 import { fetchPromoCode } from '../../store/reducers/promoCode';
+import { getCookie } from '../../helpers/cookies';
 
 interface ItemFormProps {
     visible: boolean;
@@ -18,6 +19,7 @@ export const PromoForm: React.FC<ItemFormProps> = ({ visible, onCancel }) => {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${getCookie('access_token')}`
                 },
                 body: JSON.stringify(values),
             });

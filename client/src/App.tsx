@@ -12,6 +12,7 @@ const OrderPage = lazy(() => import('./routes/OrderPage/OrderPage'))
 const Categories = lazy(() => import('./routes/Categories/Categories'))
 const Table = lazy(() => import('./routes/Table/Table'))
 const TableBiling = lazy(() => import('./routes/Table/TableOrder/TableOrder'))
+const Code = lazy(() => import('./routes/Code/Code'))
 
 function App() {
 
@@ -21,12 +22,14 @@ function App() {
       <Route path='/' element={<Main />}>
         <Route path='/' element={<Suspense fallback={<Spin spinning={true} fullscreen />}><MainPage /></Suspense>} />
         <Route path='product/:id' element={<Suspense fallback={<Spin fullscreen spinning={true} />}><ProductSelectedPage /></Suspense>} />
+        <Route path='code/:id' element={<Suspense fallback={<Spin fullscreen spinning={true} />}><Code /></Suspense>} />
         <Route path='order' element={<Suspense fallback={<Spin fullscreen spinning={true} />} ><OrderPage /></Suspense>} />
         <Route path='categories' element={<Suspense fallback={<Spin fullscreen spinning={true} />} ><Categories /></Suspense>} />
       </Route>
       <Route path='/table/:tableid' element={<TableLayout />}>
         <Route path='menu' element={<Suspense fallback={<Spin spinning={true} fullscreen />}><Table /></Suspense>} />
         <Route path='tablebiling' element={<Suspense fallback={<Spin spinning={true} fullscreen />}><TableBiling /></Suspense>} />
+        <Route path='code/:id' element={<Suspense fallback={<Spin fullscreen spinning={true} />}><Code /></Suspense>} />
         <Route path='tablefood/:id' element={<Suspense fallback={<Spin spinning={true} fullscreen />}><ProductSelectedPageTable /></Suspense>} />
 
       </Route>
