@@ -1,0 +1,127 @@
+.order-container {
+    max-width: 1400px;
+    display: flex;
+    margin: 0 auto;
+    gap: 30px;
+    padding: 20px;
+
+    @media (max-width:920px) {
+        flex-direction: column-reverse;
+    }
+
+    @media (max-width: 768px) {
+        padding: 15px;
+        gap: 20px;
+    }
+
+    @media (max-width: 480px) {
+        padding: 10px;
+        gap: 15px;
+    }
+}
+
+
+.he {
+    width: 100%;
+    height: fit-content;
+}
+
+.cart-section {
+    margin-bottom: 30px;
+    background: rgba(255, 255, 255, 0.61);
+    border-radius: 16px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+   
+    -webkit-backdrop-filter: blur(11.9px);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    padding: 1rem;
+
+    .clear-cart-btn {
+        float: right;
+    }
+
+    @media (max-width: 768px) {
+        padding: 0.8rem;
+        margin-bottom: 20px;
+    }
+
+    @media (max-width: 480px) {
+        padding: 0.6rem;
+        margin-bottom: 15px;
+    }
+}
+
+.quantity {
+    padding: 0 10px;
+
+    @media (max-width: 480px) {
+        padding: 0 5px;
+    }
+}
+
+.personal-info-section,
+.address-section {
+    background: rgba(255, 255, 255, 0.61);
+    border-radius: 16px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+   
+    -webkit-backdrop-filter: blur(11.9px);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    padding: 1rem;
+    padding: 20px;
+    margin-bottom: 30px;
+    border-radius: 8px;
+
+    @media (max-width: 768px) {
+        padding: 15px;
+        margin-bottom: 20px;
+    }
+
+    @media (max-width: 480px) {
+        padding: 10px;
+        margin-bottom: 15px;
+    }
+}
+
+.order-summary-section {
+    background: rgba(255, 255, 255, 0.61);
+    border-radius: 16px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+   
+    -webkit-backdrop-filter: blur(11.9px);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    padding: 1rem;
+    padding: 20px;
+    border-radius: 8px;
+
+    @media (max-width: 768px) {
+        padding: 15px;
+    }
+
+    @media (max-width: 480px) {
+        padding: 10px;
+    }
+
+    .order-details {
+        margin-bottom: 20px;
+
+        @media (max-width: 768px) {
+            margin-bottom: 15px;
+        }
+
+        @media (max-width: 480px) {
+            margin-bottom: 10px;
+        }
+    }
+}
+
+
+@media (max-width: 768px) {
+    .order-container {
+        .ant-avatar-lg.ant-avatar-square {
+            height: 50px !important;
+            width: 50px !important;
+            border-radius: 8px;
+        }
+    }
+}

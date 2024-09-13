@@ -1,0 +1,12 @@
+export { DefaultDashboardPage } from './Default.tsx';
+export { ProjectsDashboardPage } from './Projects.tsx';
+export { EcommerceDashboardPage } from './Ecommerce.tsx';
+export { MarketingDashboardPage } from './Marketing.tsx';
+export { SocialDashboardPage } from './Social.tsx';
+export { BiddingDashboardPage } from './Bidding.tsx';
+export { LearningDashboardPage } from './Learning.tsx';
+export { LogisticsDashboardPage } from './Logistics.tsx';
+export { UsersDashboardPage } from './Users.tsx'
+export { TelegramUsersDashboardPage } from './TelegramUsers.tsx'
+export { TusksDashboardPage } from './Tusks.tsx'
+export { ProductDeteil } from './ProductDeteil.tsx'

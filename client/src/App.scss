@@ -1,0 +1,757 @@
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 1rem;
+}
+
+.product-card {
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    align-items: center;
+    gap: 1rem;
+    padding: 15px;
+    display: flex;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+
+    &:hover {
+        transform: scale(1.05);
+    }
+
+    .product-image {
+        width: 100px;
+        height: 100px;
+        margin-bottom: 10px;
+    }
+
+    .product-name {
+        font-size: 18px;
+        font-weight: bold;
+        margin-bottom: 10px;
+    }
+
+    .product-price {
+        font-size: 16px;
+        color: #333;
+
+        .old-price {
+            text-decoration: line-through;
+            color: #FF6347;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+    }
+}
+
+.sushilistsex {
+
+    .infinite-scroll-component__outerdiv {
+        width: 100% !important;
+    }
+
+}
+
+.floatButton {
+    position: fixed;
+    bottom: 30px;
+    left: 30px;
+    z-index: 99999;
+
+    @media (max-width: 700px) {
+        display: none;
+    }
+}
+
+
+.sexmodal {
+
+
+    .ant-modal-content {
+        padding: 0 !important;
+    }
+
+    .ant-modal-footer {
+        display: none !important;
+    }
+}
+
+.product-list {
+    display: flex;
+    gap: 10px;
+    margin: 20px 0;
+}
+
+.sexcategoryclass {
+    width: calc(20% - 10px);
+}
+
+.pizza-card {
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: calc(25% - 20px);
+
+    @media (max-width:1200px) {
+        width: calc(33% - 20px);
+
+    }
+
+    @media (max-width:930px) {
+        width: calc(50% - 10px);
+    }
+
+    flex-direction: column;
+    display: flex;
+    justify-content: space-between;
+    text-align: center;
+
+    .image-wrapper {
+        position: relative;
+
+        .pizza-image {
+            width: 100%;
+            height: 300px;
+            border-radius: 10px;
+            object-fit: contain;
+        }
+
+        .new-label {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background-color: #ee1d23;
+            color: #fff;
+            font-size: 12px;
+            padding: 5px 10px;
+            border-radius: 20px;
+        }
+    }
+
+    .pizza-info {
+        padding: 15px;
+
+        .pizza-name {
+            font-size: 18px;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        .pizza-description {
+            font-size: 14px;
+            color: #777;
+            margin-bottom: 15px;
+        }
+
+        .pizza-price {
+            font-size: 16px;
+            font-weight: bold;
+
+        }
+
+        .select-button {
+            background-color: #ee1d23;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-size: 14px;
+            cursor: pointer;
+            color: white;
+            transition: 0.2s;
+
+            &:hover {
+                background-color: #b71318;
+                color: #fff;
+            }
+        }
+    }
+}
+
+.inCart {
+    background-color: #FF6347 !important;
+
+    &:hover {
+        background-color: #ee1d23 !important;
+    }
+}
+
+.pizza-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.footer {
+    background-color: #1a1a1a;
+    color: #fff;
+    padding: 20px 0;
+
+    .footer-top {
+        background-color: #ee1d23;
+        padding: 15px 0;
+        text-align: center;
+
+        .promo {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+
+            .promo-text {
+                font-size: 18px;
+            }
+
+            .promo-button {
+                background-color: #ffedd5;
+                color: #ee1d23;
+                padding: 10px 20px;
+                border-radius: 20px;
+                border: none;
+                cursor: pointer;
+                font-size: 14px;
+
+                &:hover {
+                    background-color: #ee1d23;
+                    color: #fff;
+                }
+            }
+        }
+    }
+
+    .footer-content {
+        display: flex;
+        justify-content: space-around;
+        padding: 20px;
+        text-align: left;
+
+        .footer-section {
+            h4 {
+                margin-bottom: 10px;
+                font-size: 16px;
+                color: #fff;
+            }
+
+            ul {
+                list-style: none;
+                padding: 0;
+
+                li {
+                    font-size: 14px;
+                    color: #b3b3b3;
+                    margin-bottom: 8px;
+
+                    &:hover {
+                        color: #fff;
+                    }
+                }
+            }
+        }
+
+        .footer-contacts {
+            text-align: right;
+
+            .phone-number {
+                font-size: 20px;
+                margin-bottom: 10px;
+            }
+
+            .contact-info {
+                font-size: 14px;
+                margin-bottom: 15px;
+            }
+
+            .payment-methods {
+                span {
+                    display: block;
+                    font-size: 14px;
+                    margin-bottom: 10px;
+                }
+
+                .payment-icons {
+                    display: flex;
+                    gap: 10px;
+
+                    img {
+                        width: 40px;
+                        height: 40px;
+                    }
+                }
+            }
+        }
+    }
+
+    .footer-bottom {
+        display: flex;
+        justify-content: space-between;
+        padding: 15px 20px;
+        background-color: #000;
+        font-size: 12px;
+        color: #b3b3b3;
+
+        span {
+            &:hover {
+                color: #fff;
+            }
+        }
+    }
+}
+
+.image-wrapper {
+    .ant-skeleton-element {
+        width: 100%;
+    }
+
+    .ant-skeleton-image {
+        width: 100% !important;
+        height: 270px !important;
+    }
+}
+
+.categoriesSex {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    overflow: hidden;
+    white-space: nowrap;
+
+    @media (max-width: 1200px) {
+        max-width: 700px;
+    }
+
+    @media (max-width: 1100px) {
+        max-width: 600px;
+    }
+
+    @media (max-width: 980px) {
+        max-width: 500px;
+    }
+
+    @media (max-width: 870px) {
+        max-width: 70vw;
+    }
+}
+
+.navbar {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: flex;
+    gap: 50px;
+    justify-content: space-between;
+    align-items: center;
+
+    &__logo {
+        font-size: 24px;
+        font-weight: bold;
+    }
+
+    &__pages {
+        flex: 1;
+        display: flex;
+        justify-content: center;
+        overflow: hidden;
+        white-space: nowrap;
+
+        &-wrapper {
+            display: flex;
+            overflow-x: auto;
+            padding: 10px 0;
+            scroll-behavior: smooth;
+            max-width: 100%;
+
+            &::-webkit-scrollbar {
+                height: 8px;
+            }
+
+            &::-webkit-scrollbar-thumb {
+                background-color: #ccc;
+                border-radius: 4px;
+            }
+        }
+    }
+
+    &__page {
+        margin: 0 10px;
+        text-decoration: none;
+        color: #333;
+        font-size: 16px;
+
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+
+    &__cart-button {
+        background-color: #ff5722;
+        color: #fff;
+        border: none;
+        padding: 10px 20px;
+        font-size: 16px;
+        cursor: pointer;
+        border-radius: 4px;
+
+        &:hover {
+            background-color: #e64a19;
+        }
+    }
+
+    // Адаптация для мобильных устройств
+    @media (max-width: 768px) {
+        flex-direction: column;
+        padding: 10px;
+
+        &__logo {
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+
+        &__pages {
+            flex-direction: column;
+            width: 100%;
+
+            &-wrapper {
+                flex-direction: row;
+                justify-content: space-around;
+                width: 100%;
+            }
+
+            .navbar__page {
+                font-size: 14px;
+            }
+        }
+
+        &__cart-button {
+            padding: 8px 15px;
+            font-size: 14px;
+        }
+    }
+
+    // Адаптация для совсем маленьких экранов
+    @media (max-width: 480px) {
+        flex-direction: row;
+        justify-content: space-between;
+
+        &__logo {
+            font-size: 18px;
+        }
+
+        &__cart-button {
+            padding: 5px 10px;
+            font-size: 12px;
+        }
+
+        &__pages {
+            &-wrapper {
+                max-width: 90%; // Чтобы страницы не занимали много места на маленьком экране
+            }
+
+            .navbar__page {
+                margin: 0 5px;
+                font-size: 12px;
+            }
+        }
+    }
+}
+
+.categoriesSex::-webkit-scrollbar {
+    height: 8px;
+    /* Высота горизонтального скролла */
+}
+
+.categoriesSex::-webkit-scrollbar-track {
+    background: transparent;
+    /* Фон трека */
+}
+
+.categoriesSex::-webkit-scrollbar-thumb {
+    background-color: #888;
+    /* Цвет бегунка */
+    border-radius: 10px;
+    /* Скругленные углы */
+    border: 2px solid transparent;
+    /* Дополнительное пространство вокруг бегунка */
+}
+
+.categoriesSex::-webkit-scrollbar-thumb:hover {
+    background-color: #555;
+    /* Цвет при наведении */
+}
+
+
+
+.ant-input {
+    height: 50px !important;
+    border-radius: 12px !important;
+    padding: 4px 30px !important;
+}
+
+.ant-btn.ant-btn-block {
+    height: 50px !important;
+    border-radius: 12px !important;
+    width: 100%;
+
+    &:hover {
+        box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
+    }
+}
+
+/* Адаптивность для экранов до 992px */
+@media (max-width: 992px) {
+    .footer-content {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+
+        .footer-section,
+        .footer-contacts {
+            width: 100%;
+            margin-bottom: 20px;
+            text-align: center;
+
+            h4 {
+                font-size: 14px;
+            }
+
+            ul li {
+                font-size: 12px;
+            }
+        }
+
+        .footer-contacts {
+            .phone-number {
+                font-size: 18px;
+            }
+
+            .contact-info {
+                font-size: 12px;
+            }
+
+            .payment-methods span {
+                font-size: 12px;
+            }
+
+            .payment-icons img {
+                width: 30px;
+                height: 30px;
+            }
+        }
+    }
+}
+
+
+/* Адаптивность для экранов шириной до 768px */
+@media (max-width: 768px) {
+    .footer-top .promo {
+        flex-direction: column;
+        gap: 10px;
+
+        .promo-text {
+            font-size: 16px;
+        }
+
+        .promo-button {
+            padding: 8px 16px;
+            font-size: 12px;
+        }
+    }
+
+    .footer-content {
+        padding: 10px;
+        text-align: center;
+
+        .footer-section h4 {
+            font-size: 14px;
+        }
+
+        .footer-section ul li {
+            font-size: 12px;
+        }
+
+        .footer-contacts .phone-number {
+            font-size: 16px;
+        }
+
+        .footer-contacts .payment-icons img {
+            width: 25px;
+            height: 25px;
+        }
+    }
+
+    .footer-bottom {
+        flex-direction: column;
+        align-items: center;
+        font-size: 10px;
+
+        span {
+            margin-bottom: 10px;
+        }
+    }
+
+    .pizza-info {
+        padding: 10px !important;
+
+        .pizza-name {
+            font-size: 16px !important;
+        }
+
+        .pizza-description {
+            font-size: 12px !important;
+        }
+
+        .pizza-price {
+            font-size: 14px !important;
+        }
+
+        .select-button {
+            padding: 8px 16px !important;
+            font-size: 12px !important;
+        }
+    }
+
+    .pizza-image {
+        height: 250px !important;
+    }
+
+    .new-label {
+        font-size: 10px !important;
+        padding: 4px 8px !important;
+    }
+
+    .product-card {
+        flex-direction: column;
+        padding: 10px;
+        gap: 0.5rem;
+
+        .product-image {
+            width: 80px;
+            height: 80px;
+        }
+
+        .product-name {
+            font-size: 16px;
+        }
+
+        .product-price {
+            font-size: 14px;
+
+            .old-price {
+                font-size: 12px;
+            }
+        }
+    }
+}
+
+@media(max-width:600px) {
+    .pizza-info {
+        .ant-flex {
+            flex-wrap: wrap !important;
+            align-items: center;
+            justify-content: center;
+        }
+    }
+
+    .pizza-card .pizza-info .pizza-description {
+        margin: 0 !important;
+    }
+
+    .pizza-card .pizza-info .pizza-name {
+        margin: 0 !important;
+    }
+}
+
+/* Адаптивность для экранов шириной до 480px */
+@media (max-width: 480px) {
+    .product-card {
+        padding: 8px;
+
+        .product-image {
+            width: 60px;
+            height: 60px;
+        }
+
+        .product-name {
+            font-size: 14px;
+        }
+
+        .product-price {
+            font-size: 12px;
+
+            .old-price {
+                font-size: 10px;
+            }
+        }
+    }
+
+    .pizza-info {
+        padding: 8px !important;
+
+        .pizza-name {
+            font-size: 14px !important;
+        }
+
+        .pizza-description {
+            font-size: 12px !important;
+        }
+
+        .pizza-price {
+            font-size: 12px !important;
+        }
+
+        .select-button {
+            padding: 6px 12px !important;
+            font-size: 12px !important;
+        }
+    }
+
+    .pizza-image {
+        height: 150px !important;
+    }
+
+    .new-label {
+        font-size: 8px !important;
+        padding: 3px 6px !important;
+    }
+
+    .footer-top {
+        padding: 10px 0;
+
+        .promo-text {
+            font-size: 14px;
+        }
+
+        .promo-button {
+            padding: 6px 12px;
+            font-size: 10px;
+        }
+    }
+
+    .footer-content {
+        padding: 5px;
+
+        .footer-section h4 {
+            font-size: 12px;
+        }
+
+        .footer-section ul li {
+            font-size: 10px;
+        }
+
+        .footer-contacts .phone-number {
+            font-size: 14px;
+        }
+
+        .footer-contacts .payment-icons img {
+            width: 20px;
+            height: 20px;
+        }
+    }
+
+    .footer .footer-bottom {
+        padding-bottom: 4rem !important;
+    }
+
+    .footer-bottom {
+        padding: 10px;
+        font-size: 8px;
+
+    }
+}

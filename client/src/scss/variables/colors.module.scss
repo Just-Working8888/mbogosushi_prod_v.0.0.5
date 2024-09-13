@@ -1,0 +1,53 @@
+$primary100: #b71318 !important;
+$primary50: #ee1d23 ;
+$gost: #F2F6FF;
+$primaryborder: #ccc;
+$primarytext: #1551E5;
+$mainPadding: 0 100px;
+$maxWidth: 1200px;
+
+
+$borderColor: #00000027;
+$lightgrayfill: #f5f5f7;
+$lightdivider: #e5e5eb;
+$divider: #d9d9de;
+$white: #ffffff;
+$secondary: #76767a;
+
+$titleColor: #000000;
+$primaryblack: #333333;
+
+$errorText: #d51a1a;
+$error: #e52e2e;
+$warning: #ff9500;
+$success: #52c41a;
+
+$defaultactive: #e6eef7;
+
+:export {
+    primary100: $primary100;
+    primary50: $primary50;
+    gost: $gost;
+    primaryborder: $primaryborder;
+    primarytext: $primarytext;
+    mainPadding: $mainPadding;
+    maxWidth: $maxWidth;
+
+
+    borderColor: $borderColor;
+    lightgrayfill: $lightgrayfill;
+    lightdivider: $lightdivider;
+    divider: $divider;
+    secondary: $secondary;
+    white: $white;
+
+    titleColor: $titleColor;
+    primaryblack: $primaryblack;
+
+    errorText: $errorText;
+    error: $error;
+    warning: $warning;
+    success: $success;
+
+    defaultactive: $defaultactive;
+}

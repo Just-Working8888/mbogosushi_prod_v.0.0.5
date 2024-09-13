@@ -1,0 +1,52 @@
+:root {
+  font-family: 'Lato', sans-serif;
+}
+
+body {
+  margin: 0;
+}
+
+/* .ant-menu,.ant-layout-sider{
+  width: 250px !important;
+  flex: 0 0 250px !important;
+  max-width: 250px !important;
+  min-width: 250px !important
+} */
+.custom-popup {
+  position: absolute;
+  background: white;
+  border: 1px solid black;
+  padding: 10px;
+  border-radius: 5px;
+  z-index: 1000;
+}
+
+
+
+/* MainPage.css */
+.main-page-container {
+position: relative;
+  margin: 0 auto;
+  padding: 20px;
+background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.custom-form .ant-form-item {
+  margin-bottom: 16px;
+}
+
+.custom-form .ant-upload-list-picture {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.custom-form .ant-upload-list-picture .ant-upload-list-item {
+  width: 100%;
+}
+
+.custom-form .ant-btn {
+  width: 100%;
+}
