@@ -1,6 +1,7 @@
 export interface ICart {
     id: number
     created: string
+    promo_code: boolean
     discount_amount: number
     items: {
         id: number
