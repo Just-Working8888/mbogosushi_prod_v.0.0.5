@@ -1,11 +1,7 @@
-import { Button, Calendar, CalendarProps, CardProps, Popover } from 'antd';
-import type { Dayjs } from 'dayjs';
+import { Button, CardProps, Popover } from 'antd';
 import { QuestionOutlined } from '@ant-design/icons';
 import { Card } from '../../../index.ts';
 
-const onPanelChange = (value: Dayjs, mode: CalendarProps<Dayjs>['mode']) => {
-  console.log(value.format('YYYY-MM-DD'), mode);
-};
 
 type Props = CardProps;
 
@@ -20,7 +16,7 @@ export const CampaignsActivity = ({ ...others }: Props) => {
       }
       {...others}
     >
-      <Calendar fullscreen={false} onPanelChange={onPanelChange} />
+      test
     </Card>
   );
 };
