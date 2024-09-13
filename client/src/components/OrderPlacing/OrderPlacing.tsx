@@ -11,6 +11,7 @@ import MapTest from '../Map/Map';
 import SearchComponent from '../TestLocationSerch/TestLocationSearch';
 import { createBiling } from '../../store/reducers/bilingReduser';
 import { createDelivary } from '../../store/reducers/delivaryReduser';
+import { useNavigate } from 'react-router-dom';
 
 const { Option } = Select;
 
@@ -19,6 +20,7 @@ const OrderForm: React.FC = () => {
     const [promoCode, setPromoCode] = useState<string>(''); // Добавляем состояние для промо-кода
     const [discount, setDiscount] = useState<number>(0); // Состояние для хранения примененной скидки
     console.log(discount);
+    const navigate = useNavigate()
 
     const [paymentMethod, setPaymentMethod] = useState<string>('bankCard');
     const dispatch = useAppDispatch();
@@ -64,8 +66,8 @@ const OrderForm: React.FC = () => {
 
     const onFinish = async (values: any) => {
         const data = {
-            full_name: values.full_name,
-            whatsapp_number: values.whatsapp_number,
+            // full_name: values.full_name,
+            // whatsapp_number: values.whatsapp_number,
             billing_receipt_type: values.billing_receipt_type,
             delivery_price: delivery.data.price,
             street: AdressTitle,
@@ -73,15 +75,18 @@ const OrderForm: React.FC = () => {
             payment_method: values.payment_method,
             note: values.note,
             status: true,
-            parent: 0
+            parent: 0,
+            change_price: values.change_price
+
         };
 
         dispatch(createBiling({
             data: data
-        })).then(() => {
-            const cartId = localStorage.getItem('cart_id');
+        })).then((res) => {
 
-            dispatch(fetchCartItemById({ id: Number(cartId) }));
+
+            navigate(`/code/${res?.payload?.payment_code}`)
+
         })
 
     };
@@ -91,6 +96,8 @@ const OrderForm: React.FC = () => {
             const cartId = localStorage.getItem('cart_id');
             const response = await api.applyPromoCode({ cart_id: cartId, promo_code: promoCode });
             setDiscount(response.data.discount_amount);
+            dispatch(fetchCartItemById({ id: Number(cartId) }));
+
             message.success(response.data.success);
         } catch (error) {
             message.error('Не удалось применить промо-код');
@@ -132,7 +139,7 @@ const OrderForm: React.FC = () => {
                         </Form.Item>
 
                         {paymentMethod === 'cash' && (
-                            <Form.Item label="Сдача с" name="change">
+                            <Form.Item label="Сдача с" name="change_price">
                                 <Input placeholder="Введите сумму для сдачи" />
                             </Form.Item>
                         )}
@@ -190,7 +197,7 @@ const OrderForm: React.FC = () => {
                     />
                 </div>
                 <br />
-                <div className="promo-code-section">
+                {!data.promo_code && <div className="promo-code-section">
                     <h3>Введите промо-код:</h3>
                     <Input
                         placeholder="Введите промо-код"
@@ -201,18 +208,21 @@ const OrderForm: React.FC = () => {
                     <Button type="primary" onClick={applyPromoCode} block>
                         Применить промо-код
                     </Button>
-                </div>
+                </div>}
                 <br />
                 <h3>Итого: {totalPrice} c</h3>
                 <div className="order-details">
-                    <p>Стоимость товаров: {totalPrice} c</p>
-                    <p>Адресc: <p>{AdressTitle}</p>  </p>
+                    <p>Стоимость товаров: {totalPrice + data.discount_amount} c</p>
+
+                    <p>Скидка: {data.discount_amount}</p>
                     {
-                        receiptType === ''
+                        receiptType === 'Доставка' && <>
+                            <p>Адресc: {AdressTitle} </p>
+                            <p>Растояние: {delivery.data.distanse}</p>
+                            <p>Примерное время доставки: {delivery.data.time as any}</p></>
                     }
-                    <p>Растояние <p>{delivery.data.distanse}</p></p>
-                    <p>Примерное время доставки <p>{delivery.data.time as any}</p></p>
-                    <p>Доставка: 120 c</p>
+
+                    {/* <p>Доставка: 120 c</p> */}
                 </div>
 
                 <Button type="primary" size="large" block>

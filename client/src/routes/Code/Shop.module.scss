@@ -1,0 +1,29 @@
+@import "../../scss/variables/colors.module.scss";
+
+.main {
+  max-width: $maxWidth;
+  padding: 0 1rem;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 120px;
+  width: 100%;
+
+
+
+}
+@media(max-width:1200px) {
+  .main {
+      max-width: 960px;
+  }
+}
+@media(max-width:970px) {
+  .main {
+      max-width: 720px;
+  }
+}
+@media(max-width:768px) {
+  .main {
+      max-width: 540px;
+  }
+}
