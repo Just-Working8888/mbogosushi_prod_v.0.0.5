@@ -27,7 +27,10 @@ const applyPromoCode = (data: any, sourceToken?: CancelToken) =>
     instance.post(`/carts/promocode/`, {
         ...data
     }, { cancelToken: sourceToken });
-
+const applyPromoCodeTable = (data: any, sourceToken?: CancelToken) =>
+    instance.post(`/tables/promocode/`, {
+        ...data
+    }, { cancelToken: sourceToken });
 const endpoints = {
     getReviews,
     getReviewsById,
@@ -35,6 +38,7 @@ const endpoints = {
     updateReviews,
     patchReviews,
     deleteReviewsById,
-    applyPromoCode
+    applyPromoCode,
+    applyPromoCodeTable
 };
 export default endpoints;

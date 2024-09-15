@@ -46,7 +46,7 @@ const OrderFormTable: React.FC = () => {
     const totalPrice = (data.items?.reduce(
         (acc: number, item: any) => acc + parseFloat(item.product.price) * item.quantity, 0
     ) || 0) - discount;
-
+    const serviceCharge = totalPrice * 0.15;
     const onFinish = async (values: any) => {
         const data = {
             session_key: localStorage.getItem('session_key') as any,
@@ -67,7 +67,7 @@ const OrderFormTable: React.FC = () => {
     const applyPromoCode = async () => {
         try {
             const table_key = localStorage.getItem('table_key');
-            const response = await api.applyPromoCode({ cart_id: table_key, promo_code: promoCode });
+            const response = await api.applyPromoCodeTable({ session_key: localStorage.getItem('session_key'), promo_code: promoCode });
             setDiscount(response.data.discount_amount);
             message.success(response.data.success);
         } catch (error) {
@@ -138,7 +138,7 @@ const OrderFormTable: React.FC = () => {
                     />
                 </div>
                 <br />
-                <div className="promo-code-section">
+                {data.discount_amount > 1 ? '' : <div className="promo-code-section">
                     <h3>Введите промо-код:</h3>
                     <Input
                         placeholder="Введите промо-код"
@@ -149,11 +149,15 @@ const OrderFormTable: React.FC = () => {
                     <Button type="primary" onClick={applyPromoCode} block>
                         Применить промо-код
                     </Button>
-                </div>
+                </div>}
+
                 <br />
-                <h3>Итого: {totalPrice} c</h3>
+                <h3>Итого: {totalPrice + serviceCharge} c</h3>
                 <div className="order-details">
-                    <p>Стоимость товаров: {totalPrice} c</p>
+                    <p>Стоимость товаров: {totalPrice + data.discount_amount} c</p>
+                    <p>Обслуживание 15%: {serviceCharge} c </p>
+                    <p>Скидка: {data.discount_amount} c </p>
+
                 </div>
 
 
