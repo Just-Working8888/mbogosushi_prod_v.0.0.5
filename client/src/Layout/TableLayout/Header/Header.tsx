@@ -197,13 +197,11 @@ const HeaderTable: React.FC = () => {
                 </header>
             )}
 
-            <div className={classes.mobile_cart}>
+            <div className={'mobile_cart'}>
                 <CartDrawer />
                 <button onClick={() => navigate(`/table/${tableid}/tablebiling`)} className='buttonn' style={{ color: 'white' }}>Оформить</button>
             </div>
-            <div className="floatButton">
-                <CartDrawer />
-            </div>
+       
         </>
     );
 };

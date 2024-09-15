@@ -16,6 +16,7 @@
   },
   "dependencies": {
     "@2gis/mapgl": "^1.48.0",
+    "@2gis/mapgl-directions": "^2.0.3",
     "@ant-design/charts": "^1.4.2",
     "@ant-design/colors": "^7.0.2",
     "@ant-design/icons": "^5.3.0",

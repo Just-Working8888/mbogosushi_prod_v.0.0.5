@@ -1,1 +1,1 @@
-export const gisapikey = '106f5dbb-6d37-473d-8978-22c83f9c5c01'
+export const gisapikey = 'fd0b168d-047a-4bbc-8ccf-5c0f6144a84b'

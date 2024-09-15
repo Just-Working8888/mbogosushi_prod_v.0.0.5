@@ -20,7 +20,7 @@ const MapTest: React.FC = () => {
     // Функция для обратного геокодирования
     const reverseGeocode = async (lngLat: [number, number]) => {
         const [longitude, latitude] = lngLat;
-        const apiKey = '106f5dbb-6d37-473d-8978-22c83f9c5c01'; // Замените на ваш API-ключ 2GIS
+        const apiKey = 'fd0b168d-047a-4bbc-8ccf-5c0f6144a84b'; // Замените на ваш API-ключ 2GIS
         const url = `https://catalog.api.2gis.com/3.0/items/geocode?lon=${longitude}&lat=${latitude}&key=${apiKey}`;
 
         try {
@@ -46,7 +46,7 @@ const MapTest: React.FC = () => {
             const options: any = {
                 center: [74.593379, 42.878941], // Координаты центра карты
                 zoom: 13,
-                key: '106f5dbb-6d37-473d-8978-22c83f9c5c01', // Замените на ваш API-ключ 2GIS
+                key: 'fd0b168d-047a-4bbc-8ccf-5c0f6144a84b', // Замените на ваш API-ключ 2GIS
             };
 
             const mapInstance = new mapglAPI.Map('map-container', options);

@@ -1,7 +1,7 @@
 import axios, { CancelToken } from "axios";
 
 const getAdresses = (query: string, sourceToken?: CancelToken) => {
-    const apiKey = '106f5dbb-6d37-473d-8978-22c83f9c5c01';
+    const apiKey = 'fd0b168d-047a-4bbc-8ccf-5c0f6144a84b';
     const viewpoint1 = [74.4677, 42.882]; // Верхний левый угол для города Бишкек
     const viewpoint2 = [74.6177, 42.832]; // Нижний правый угол для города Бишкек
     const url = `https://catalog.api.2gis.ru/3.0/suggests?key=${apiKey}&q=${encodeURIComponent(query)}&viewpoint1=${viewpoint1[0]},${viewpoint1[1]}&viewpoint2=${viewpoint2[0]},${viewpoint2[1]}&locale=ru_KG&type=street,branch,building,road,attraction,crossroad,station,station.metro,user_queries&fields=items.point,items.full_name,items.id`;
@@ -27,7 +27,7 @@ const getAdresses = (query: string, sourceToken?: CancelToken) => {
 };
 
 const getAdressesById = (itemId: number, sourceToken?: CancelToken) => {
-    const apiKey = '106f5dbb-6d37-473d-8978-22c83f9c5c01';
+    const apiKey = 'fd0b168d-047a-4bbc-8ccf-5c0f6144a84b';
     const url = `https://catalog.api.2gis.ru/3.0/items/byid?id=${itemId}&key=${apiKey}&fields=items.point`;
     return axios.get<any>(url, { cancelToken: sourceToken });
 };

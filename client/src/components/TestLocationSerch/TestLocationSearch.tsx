@@ -10,7 +10,7 @@ import { setAdressTitle } from '../../store/slices/adressesSlice';
 const { Content } = Layout;
 const { Text } = Typography;
 
-const apiKey = '106f5dbb-6d37-473d-8978-22c83f9c5c01';
+const apiKey = 'fd0b168d-047a-4bbc-8ccf-5c0f6144a84b';
 const viewpoint1 = [74.4677, 42.882]; // Верхний левый угол для города Бишкек
 const viewpoint2 = [74.6177, 42.832]; // Нижний правый угол для города Бишкек
 

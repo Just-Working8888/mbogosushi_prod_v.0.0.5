@@ -16,7 +16,7 @@ import { useNavigate } from 'react-router-dom';
 const { Option } = Select;
 
 const OrderForm: React.FC = () => {
-    const [receiptType, setReceiptType] = useState<string>('Самовывоз');
+    const [receiptType, setReceiptType] = useState<string>('Доставка');
     const [promoCode, setPromoCode] = useState<string>(''); // Добавляем состояние для промо-кода
     const [discount, setDiscount] = useState<number>(0); // Состояние для хранения примененной скидки
     console.log(discount);

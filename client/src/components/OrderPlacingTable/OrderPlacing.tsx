@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Input, Button, List, Avatar, Form, message, Select, Flex } from 'antd';
+import { Input, Button, List, Avatar, Form, message, Select } from 'antd';
 import { DeleteOutlined } from '@ant-design/icons';
 import './OrderForm.scss'; // Стилизация компонента
 import { api } from '../../api';
@@ -7,27 +7,24 @@ import { removeItem } from '../../store/slices/cartSlice';
 import { useAppDispatch, useAppSelector } from '../../store/hook';
 import Counter from '../CartBarTable/Counter/Counter';
 import { useParams } from 'react-router-dom';
-import { createTableOrder, fetchOrderItemById } from '../../store/reducers/TableOrderReduser';
+import { fetchOrderItemById } from '../../store/reducers/TableOrderReduser';
 import { fetchTableById } from '../../store/reducers/tableReduser';
+import { createTableBiling } from '../../store/reducers/tableBilingREsuser';
 
 const { Option } = Select;
-
 const OrderFormTable: React.FC = () => {
-    const [promoCode, setPromoCode] = useState<string>(''); // Добавляем состояние для промо-кода
-    const [discount, setDiscount] = useState<number>(0); // Состояние для хранения примененной скидки
+    const [promoCode, setPromoCode] = useState<string>('');
+    const [discount, setDiscount] = useState<number>(0);
     const { tableid } = useParams()
 
     const [paymentMethod, setPaymentMethod] = useState<string>('bankCard');
     const dispatch = useAppDispatch();
     const data = useAppSelector((state) => state.tableCart.data)
 
-
     useEffect(() => {
         dispatch(fetchOrderItemById({ id: Number(localStorage.getItem('table_key')) }));
         dispatch(fetchTableById({ id: Number(tableid) }))
     }, [dispatch]);
-
-
 
     const handlePaymentMethodChange = (value: string) => {
         setPaymentMethod(value);
@@ -48,8 +45,7 @@ const OrderFormTable: React.FC = () => {
 
     const totalPrice = (data.items?.reduce(
         (acc: number, item: any) => acc + parseFloat(item.product.price) * item.quantity, 0
-    ) || 0) - discount; // 
-
+    ) || 0) - discount;
 
     const onFinish = async (values: any) => {
         const data = {
@@ -60,17 +56,17 @@ const OrderFormTable: React.FC = () => {
             ...values
         }
 
-        dispatch(createTableOrder({
-            data: data
+        dispatch(createTableBiling({
+            data: data,
+            tableid: Number(tableid)
         })).then(() => {
             dispatch(fetchOrderItemById({ id: Number(localStorage.getItem('table_key')) }));
         })
-
     };
 
     const applyPromoCode = async () => {
         try {
-            const table_key = localStorage.getItem('table_key')
+            const table_key = localStorage.getItem('table_key');
             const response = await api.applyPromoCode({ cart_id: table_key, promo_code: promoCode });
             setDiscount(response.data.discount_amount);
             message.success(response.data.success);
@@ -78,10 +74,10 @@ const OrderFormTable: React.FC = () => {
             message.error('Не удалось применить промо-код');
         }
     };
+
     return (
         <div className="order-container">
             <div className="he">
-             
                 <div className="personal-info-section">
                     <Form onFinish={onFinish} layout="vertical">
                         <Form.Item initialValue="bankCard" label="Метод оплаты" name="payment_method">
@@ -92,15 +88,15 @@ const OrderFormTable: React.FC = () => {
                             </Select>
                         </Form.Item>
                         {paymentMethod === 'cash' && (
-                            <Form.Item label="Сдача с" name="change">
+                            <Form.Item label="Сдача с" name="client_delivery">
                                 <Input placeholder="Введите сумму для сдачи" />
                             </Form.Item>
                         )}
-                        <Form.Item label="Комментарий к заказу" name="comment">
+                        <Form.Item label="Комментарий к заказу" name="note">
                             <Input.TextArea rows={3} placeholder="Укажите тут дополнительную информацию для курьера" />
                         </Form.Item>
                         <Form.Item>
-                            <Button type="primary" htmlType="submit" block>
+                            <Button type="primary" htmlType="submit" block disabled={data.items?.length === 0}>
                                 Оформить заказ
                             </Button>
                         </Form.Item>
@@ -110,22 +106,20 @@ const OrderFormTable: React.FC = () => {
 
             <div className="order-summary-section he">
                 <div className="">
-                    <h2><Flex justify='space-between'> Корзина <Button icon={<DeleteOutlined />} className="clear-cart-btn">
-                        Очистить корзину
-                    </Button></Flex></h2>
-
+                    <h2>
+                        Корзина <Button icon={<DeleteOutlined />} className="clear-cart-btn">
+                            Очистить корзину
+                        </Button>
+                    </h2>
                     <List
                         itemLayout="horizontal"
                         dataSource={data.items}
                         renderItem={(item: any) => (
                             <List.Item
-
                                 actions={[
                                     <div className='rightBar'>
-                                        <Button onClick={() => delte(item.id)} style={{ width: '32px', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '0px 0px 0px 7px' }} type='text' icon={<DeleteOutlined style={{ color: 'red' }} />}>      </Button>
-
+                                        <Button onClick={() => delte(item.id)} style={{ width: '32px', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '0px 0px 0px 7px' }} type='text' icon={<DeleteOutlined style={{ color: 'red' }} />} />
                                         <Counter record={item} />
-
                                     </div>
                                 ]}
                             >
@@ -162,12 +156,11 @@ const OrderFormTable: React.FC = () => {
                     <p>Стоимость товаров: {totalPrice} c</p>
                 </div>
 
-                <Button type="primary" size="large" block>
-                    Перейти к оплате
-                </Button>
+
             </div>
-        </div >
+        </div>
     );
 };
 
 export default OrderFormTable;
+
