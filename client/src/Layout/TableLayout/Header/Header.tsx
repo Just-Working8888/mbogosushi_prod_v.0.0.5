@@ -6,7 +6,7 @@ import { useAppDispatch, useAppSelector } from '../../../store/hook';
 import { fetchCategories } from '../../../store/reducers/Categories';
 import { setCategory, setOffcet } from '../../../store/slices/windowSlice';
 import { clearData } from '../../../store/slices/productSlice';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { deleteCookie } from '../../../helpers/cookies';
 import { CSSTransition } from 'react-transition-group';
 import './Header.module.scss';  // Подключаем файл стилей
@@ -32,6 +32,7 @@ const HeaderTable: React.FC = () => {
     const [search, setSearch] = useState('')
     const [debouncedSearch, setDebouncedSearch] = useState(search);
     const { tableid } = useParams()
+    const location = useLocation(); // используем для получения текущего пути
 
     const [all, setAll] = useState(false);
 
@@ -199,9 +200,12 @@ const HeaderTable: React.FC = () => {
 
             <div className={'mobile_cart'}>
                 <CartDrawer />
-                <button onClick={() => navigate(`/table/${tableid}/tablebiling`)} className='buttonn' style={{ color: 'white' }}>Оформить</button>
-            </div>
-       
+                {location.pathname.includes('/tablebiling') ? (
+                    <button onClick={() => navigate(`/table/${tableid}/menu`)} className='buttonn' style={{ color: 'white' }}>Меню</button>
+                ) : (
+                    <button onClick={() => navigate(`/table/${tableid}/tablebiling`)} className='buttonn' style={{ color: 'white' }}>Оформить</button>
+                )}            </div>
+
         </>
     );
 };
