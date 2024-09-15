@@ -27,8 +27,8 @@ services:
   mnogosushi_client_nginx:
     image: nginx:latest
     ports:
-      - "80:80" # HTTP (будет доступен на localhost:80)
-      - "443:443" # HTTPS (будет доступен на localhost:443)
+      - "899:80" # HTTP (будет доступен на localhost:80)
+      - "44334:443" # HTTPS (будет доступен на localhost:443)
     volumes:
       - ../nginx/nginx.server.conf:/etc/nginx/conf.d/default.conf:ro
       - /etc/letsencrypt:/etc/letsencrypt # SSL-сертификаты
