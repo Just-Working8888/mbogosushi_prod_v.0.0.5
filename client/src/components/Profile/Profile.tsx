@@ -1,57 +1,60 @@
-import React, { useState } from 'react';
-import { Drawer, Button, Card, Typography, Spin, Form, Input, notification } from 'antd';
-import { UserOutlined, EditOutlined } from '@ant-design/icons';
+import React, { useEffect, useState } from 'react';
+import { Drawer, Button, Card, Typography, Spin, Form, Input, notification, Upload } from 'antd';
+import { UserOutlined, EditOutlined, UploadOutlined } from '@ant-design/icons';
 import axios from 'axios';
 import styles from './UserProfileDrawer.module.scss';
+import { getCookie } from '../../helpers/cookies';
+import { useAppDispatch, useAppSelector } from '../../store/hook';
+import { fetchUserByID } from '../../store/reducers/userReduser';
+import { setUser } from '../../store/slices/userSlice';
+import { IUser } from '../../store/models/IUser';
 
 const { Title, Text } = Typography;
 
-interface UserProfile {
-    id: number;
-    username: string;
-    profile_image: string | null;
-    phone: string | null;
-    loyalty_points: string;
-}
 
 const UserProfileDrawer: React.FC = () => {
     const [visible, setVisible] = useState(false);
-    const [loading, setLoading] = useState(false);
-    const [userData, setUserData] = useState<UserProfile | null>(null);
-    const [isEditing, setIsEditing] = useState(false); // Режим редактирования
-
+    const [isEditing, setIsEditing] = useState(false);
+    const [fileList, setFileList] = useState<any[]>([]); // Список файлов для загрузки
+    const { data, laoding } = useAppSelector((state) => state.user)
+    const dispatch = useAppDispatch()
     const showDrawer = () => {
         setVisible(true);
-        fetchUserData(); // Загрузить данные при открытии Drawer
     };
+    useEffect(() => {
+        dispatch(fetchUserByID({ id: Number(localStorage.getItem('user_id')) }))
+    }, [])
 
     const closeDrawer = () => {
         setVisible(false);
     };
 
-    const fetchUserData = async () => {
-        setLoading(true);
-        try {
-            const response = await axios.get<UserProfile>(`https://docker.mnogosushi.kg/api/v1/users/users/${localStorage.getItem('user_id')}/`);
-            setUserData(response.data);
-        } catch (error) {
-            console.error('Ошибка при загрузке данных:', error);
-        } finally {
-            setLoading(false);
-        }
-    };
 
-    const handleEdit = async (values: Partial<UserProfile>) => {
+
+    const handleEdit = async (values: Partial<IUser>) => {
+        const formData = new FormData();
+        formData.append('username', values.username || '');
+        formData.append('phone', values.phone || '');
+
+        if (fileList.length > 0) {
+            formData.append('profile_image', fileList[0].originFileObj); // Добавляем изображение
+        }
+
         try {
-            const response = await axios.put<UserProfile>(
+            const response = await axios.put<IUser>(
                 `https://docker.mnogosushi.kg/api/v1/users/users/${localStorage.getItem('user_id')}/`,
-                values
-            );
-            setUserData(response.data);
+                formData, {
+                headers: {
+                    Authorization: `Bearer ${getCookie('access_token')}`,
+                    'Content-Type': 'multipart/form-data', // Важно для отправки файлов
+                }
+            });
+            dispatch(setUser(response.data))
             notification.success({
                 message: 'Данные обновлены успешно!',
             });
             setIsEditing(false);
+            setFileList([]); // Очищаем список файлов
         } catch (error) {
             console.error('Ошибка при обновлении данных:', error);
             notification.error({
@@ -60,11 +63,15 @@ const UserProfileDrawer: React.FC = () => {
         }
     };
 
+    const handleFileChange = ({ fileList }: any) => {
+        setFileList(fileList);
+    };
+
     return (
         <>
             <Button
                 className="button"
-                style={{padding:'0 20px'}}
+                style={{ padding: '0 20px' }}
                 type="primary"
                 icon={<UserOutlined />}
                 onClick={showDrawer}
@@ -78,18 +85,18 @@ const UserProfileDrawer: React.FC = () => {
                 width={400}
                 className={styles.drawer}
             >
-                {loading ? (
+                {laoding ? (
                     <Spin size="large" />
-                ) : userData ? (
+                ) : data ? (
                     <>
                         {!isEditing ? (
                             <>
                                 <Card
                                     cover={
-                                        userData.profile_image ? (
+                                        data.profile_image ? (
                                             <img
                                                 alt="profile"
-                                                src={userData.profile_image}
+                                                src={data.profile_image}
                                                 className={styles.profileImage}
                                             />
                                         ) : (
@@ -107,21 +114,21 @@ const UserProfileDrawer: React.FC = () => {
                                         </Button>,
                                     ]}
                                 >
-                                    <Title level={4} className={styles.userName}>{userData.username}</Title>
-                                    <Text className={styles.userInfo}>Телефон: {userData.phone ? userData.phone : 'Нет номера телефона'}</Text><br />
+                                    <Title level={4} className={styles.userName}>{data.username}</Title>
+                                    <Text className={styles.userInfo}>Телефон: {data.phone ? data.phone : 'Нет номера телефона'}</Text><br />
                                 </Card>
 
                                 <Card className={styles.balanceCard}>
                                     <Title level={4} className={styles.balanceTitle}>Баланс лояльности</Title>
-                                    <Text className={styles.balanceAmount}>{userData.loyalty_points}</Text>
+                                    <Text className={styles.balanceAmount}>{data.loyalty_points}</Text>
                                 </Card>
                             </>
                         ) : (
                             <Form
                                 layout="vertical"
                                 initialValues={{
-                                    username: userData.username,
-                                    phone: userData.phone,
+                                    username: data.username,
+                                    phone: data.phone,
                                 }}
                                 onFinish={handleEdit}
                             >
@@ -135,6 +142,17 @@ const UserProfileDrawer: React.FC = () => {
 
                                 <Form.Item name="phone" label="Телефон">
                                     <Input placeholder="Телефон" />
+                                </Form.Item>
+
+                                <Form.Item label="Изображение профиля">
+                                    <Upload
+                                        beforeUpload={() => false}
+                                        onChange={handleFileChange}
+                                        fileList={fileList}
+                                        accept="image/*"
+                                    >
+                                        <Button icon={<UploadOutlined />}>Загрузить изображение</Button>
+                                    </Upload>
                                 </Form.Item>
 
                                 <Form.Item>

@@ -16,6 +16,7 @@ import delivaryReduser from './slices/delivarySlice'
 import pointReduser from './slices/PointsSlice'
 import scrollReduser from './slices/scroolSlice'
 import storiesReduser from './slices/storiesSlice'
+import userReduser from './slices/userSlice'
 const store = configureStore({
   reducer: {
     auth: authReducer,
@@ -34,7 +35,8 @@ const store = configureStore({
     delivary: delivaryReduser,
     point: pointReduser,
     scroll: scrollReduser,
-    stories: storiesReduser
+    stories: storiesReduser,
+    user: userReduser
   },
 });
 

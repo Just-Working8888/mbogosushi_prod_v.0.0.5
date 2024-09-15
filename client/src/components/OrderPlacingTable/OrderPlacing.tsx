@@ -1,33 +1,60 @@
 import React, { useEffect, useState } from 'react';
-import { Input, Button, List, Avatar, Form, message, Select } from 'antd';
+import { Input, Button, List, Avatar, Form, message, Select, Checkbox } from 'antd';
 import { DeleteOutlined } from '@ant-design/icons';
 import './OrderForm.scss'; // Стилизация компонента
 import { api } from '../../api';
 import { removeItem } from '../../store/slices/cartSlice';
 import { useAppDispatch, useAppSelector } from '../../store/hook';
 import Counter from '../CartBarTable/Counter/Counter';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { fetchOrderItemById } from '../../store/reducers/TableOrderReduser';
 import { fetchTableById } from '../../store/reducers/tableReduser';
 import { createTableBiling } from '../../store/reducers/tableBilingREsuser';
 
 const { Option } = Select;
+
 const OrderFormTable: React.FC = () => {
     const [promoCode, setPromoCode] = useState<string>('');
     const [discount, setDiscount] = useState<number>(0);
-    const { tableid } = useParams()
+    const [usePoints, setUsePoints] = useState<boolean>(false); // Состояние для чекбокса
+    const [pointsToUse, setPointsToUse] = useState<number>(0); // Состояние для инпута с баллами
+    const { tableid } = useParams();
 
     const [paymentMethod, setPaymentMethod] = useState<string>('bankCard');
     const dispatch = useAppDispatch();
-    const data = useAppSelector((state) => state.tableCart.data)
+
+    // Извлекаем данные о пользователе
+    const { data: userData } = useAppSelector((state) => state.user); // Данные пользователя
+    const availablePoints = userData?.loyalty_points || 0; // Количество доступных баллов
+
+    const cartData = useAppSelector((state) => state.tableCart.data);
+    const navigate = useNavigate();
 
     useEffect(() => {
         dispatch(fetchOrderItemById({ id: Number(localStorage.getItem('table_key')) }));
-        dispatch(fetchTableById({ id: Number(tableid) }))
+        dispatch(fetchTableById({ id: Number(tableid) }));
     }, [dispatch]);
 
     const handlePaymentMethodChange = (value: string) => {
         setPaymentMethod(value);
+    };
+
+    const handleUsePointsChange = (e: any) => {
+        setUsePoints(e.target.checked);
+        if (!e.target.checked) {
+            setPointsToUse(0);
+        }
+    };
+
+    const handlePointsInputChange = (e: any) => {
+        const inputPoints = Number(e.target.value);
+        // Проверка: не позволяем ввести больше баллов, чем доступно
+        if (inputPoints > availablePoints) {
+            message.error(`Вы не можете потратить больше чем ${availablePoints} баллов`);
+            setPointsToUse(availablePoints);
+        } else {
+            setPointsToUse(inputPoints);
+        }
     };
 
     const delte = async (id: number) => {
@@ -43,33 +70,35 @@ const OrderFormTable: React.FC = () => {
         }
     };
 
-    const totalPrice = (data.items?.reduce(
+    const totalPrice = (cartData.items?.reduce(
         (acc: number, item: any) => acc + parseFloat(item.product.price) * item.quantity, 0
-    ) || 0) - discount;
+    ) || 0) - discount - pointsToUse; // Вычитаем баллы
     const serviceCharge = totalPrice * 0.15;
+
     const onFinish = async (values: any) => {
-        const data = localStorage.getItem('user_id') ? {
+        const billingData = localStorage.getItem('user_id') ? {
             session_key: localStorage.getItem('session_key') as any,
             menu_table: Number(tableid),
             promo_code: true,
             discount_amount: 0,
             user_id: Number(localStorage.getItem('user_id')),
-            ...values
+            ...values,
+            points: pointsToUse // Добавляем потраченные баллы в запрос
         } : {
             session_key: localStorage.getItem('session_key') as any,
             menu_table: Number(tableid),
             promo_code: true,
             discount_amount: 0,
-
-            ...values
-        }
+            ...values,
+            points: pointsToUse // Добавляем потраченные баллы в запрос
+        };
 
         dispatch(createTableBiling({
-            data: data,
+            data: billingData,
             tableid: Number(tableid)
-        })).then(() => {
-            dispatch(fetchOrderItemById({ id: Number(localStorage.getItem('table_key')) }));
-        })
+        })).then((res) => {
+            navigate(`/table/${tableid}/code/${res?.payload?.payment_code}`);
+        });
     };
 
     const applyPromoCode = async () => {
@@ -77,12 +106,10 @@ const OrderFormTable: React.FC = () => {
             const response = await api.applyPromoCodeTable({ session_key: localStorage.getItem('session_key'), promo_code: promoCode });
             setDiscount(response.data.discount_amount);
             message.success(response.data.success);
-
         } catch (error) {
             message.error('Не удалось применить промо-код');
         } finally {
             dispatch(fetchOrderItemById({ id: Number(localStorage.getItem('table_key')) }));
-
         }
     };
 
@@ -106,8 +133,29 @@ const OrderFormTable: React.FC = () => {
                         <Form.Item label="Комментарий к заказу" name="note">
                             <Input.TextArea rows={3} placeholder="Укажите тут дополнительную информацию для курьера" />
                         </Form.Item>
+
+                        {/* Чекбокс для использования баллов */}
                         <Form.Item>
-                            <Button type="primary" htmlType="submit" block disabled={data.items?.length === 0}>
+                            <Checkbox checked={usePoints} onChange={handleUsePointsChange}>
+                                Потратить баллы
+                            </Checkbox>
+                        </Form.Item>
+
+                        {/* Инпут для ввода баллов, если чекбокс активен */}
+                        {usePoints && (
+                            <Form.Item label={`Доступно баллов: ${availablePoints}`}>
+                                <Input
+                                    type="number"
+                                    value={pointsToUse}
+                                    onChange={handlePointsInputChange}
+                                    max={availablePoints} // Ограничение на ввод
+                                    placeholder="Количество баллов"
+                                />
+                            </Form.Item>
+                        )}
+
+                        <Form.Item>
+                            <Button type="primary" htmlType="submit" block disabled={cartData.items?.length === 0}>
                                 Оформить заказ
                             </Button>
                         </Form.Item>
@@ -118,13 +166,14 @@ const OrderFormTable: React.FC = () => {
             <div className="order-summary-section he">
                 <div className="">
                     <h2>
-                        Корзина <Button icon={<DeleteOutlined />} className="clear-cart-btn">
+                        Корзина
+                        {/* <Button icon={<DeleteOutlined />} className="clear-cart-btn">
                             Очистить корзину
-                        </Button>
+                        </Button> */}
                     </h2>
                     <List
                         itemLayout="horizontal"
-                        dataSource={data.items}
+                        dataSource={cartData.items}
                         renderItem={(item: any) => (
                             <List.Item
                                 actions={[
@@ -149,7 +198,7 @@ const OrderFormTable: React.FC = () => {
                     />
                 </div>
                 <br />
-                {data.discount_amount > 1 ? '' : <div className="promo-code-section">
+                {cartData.discount_amount > 1 ? '' : <div className="promo-code-section">
                     <h3>Введите промо-код:</h3>
                     <Input
                         placeholder="Введите промо-код"
@@ -165,17 +214,13 @@ const OrderFormTable: React.FC = () => {
                 <br />
                 <h3>Итого: {totalPrice + serviceCharge} c</h3>
                 <div className="order-details">
-                    <p>Стоимость товаров: {totalPrice + data.discount_amount} c</p>
+                    <p>Стоимость товаров: {totalPrice + cartData.discount_amount} c</p>
                     <p>Обслуживание 15%: {serviceCharge} c </p>
-                    <p>Скидка: {data.discount_amount} c </p>
-
+                    <p>Скидка: {cartData.discount_amount} c </p>
                 </div>
-
-
             </div>
         </div>
     );
 };
 
 export default OrderFormTable;
-

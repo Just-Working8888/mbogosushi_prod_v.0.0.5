@@ -11,11 +11,10 @@ import Footer from "../../components/Footer/Footer";
 import Breadcrumbs from "../../components/BreadCrumps/BreadCrumps";
 export default function Main() {
     const dispatch = useAppDispatch()
-    const storedSessionKey = localStorage.getItem('session_key');
     const cart_id = localStorage.getItem('cart_id');
     useEffect(() => {
 
-        if (!storedSessionKey && !cart_id) {
+        if (!cart_id) {
             dispatch(createCart({
                 data: {
                     session_key: setSessionKey(),

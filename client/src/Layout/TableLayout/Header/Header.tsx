@@ -120,6 +120,46 @@ const HeaderTable: React.FC = () => {
                             </Protected>
                         </div>
                     </Flex>
+                    <div className="navbar__pages-wrapper">
+                        <Button
+                            onClick={() => {
+                                dispatch(setOffcet(1))
+                                dispatch(clearData())
+                                dispatch(setCategory(0))
+                                handleNavigate(`/table/${tableid}/menu`)
+                                handleScroll()
+                            }}
+                            type={
+                                menuprops.category === 0
+                                    ? 'primary'
+                                    : 'text'}>
+                            Все
+                        </Button>
+                        {data.results.map((category) =>
+                            <Button
+                                key={category.id}
+                                onClick={() => {
+                                    dispatch(setOffcet(1))
+                                    dispatch(clearData())
+                                    dispatch(setCategory(category.id))
+                                    handleNavigate(`/table/${tableid}/menu`)
+                                    handleScroll()
+                                }}
+                                type={
+                                    menuprops.category === category.id
+                                        ? 'primary'
+                                        : 'text'}>
+                                {category.title}
+                            </Button>
+                        )}
+
+                        <Button
+                            type="dashed"
+                            icon={all ? <CaretUpOutlined /> : <CaretDownOutlined />}
+                            onClick={() => setAll(!all)}>
+                            {all ? 'Скрыть' : "Показать все"}
+                        </Button>
+                    </div>
                 </header>
             ) : (
                 <header className={classes.scrolledHeader}>
@@ -168,12 +208,12 @@ const HeaderTable: React.FC = () => {
                                     </Button>
                                 )}
 
-                                <Button
+                                {/* <Button
                                     type="dashed"
                                     icon={all ? <CaretUpOutlined /> : <CaretDownOutlined />}
                                     onClick={() => setAll(!all)}>
                                     {all ? 'Скрыть' : "Показать все"}
-                                </Button>
+                                </Button> */}
                             </div>
                         </div>
                         <Flex gap={10}>

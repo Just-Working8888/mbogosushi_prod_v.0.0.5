@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Input, Button, List, Avatar, Form, message, Radio, Select, Flex } from 'antd';
+import { Input, Button, List, Avatar, Form, message, Radio, Select, Flex, Checkbox } from 'antd';
 import { DeleteOutlined } from '@ant-design/icons';
 import './OrderForm.scss'; // Стилизация компонента
 import { api } from '../../api';
@@ -17,18 +17,23 @@ const { Option } = Select;
 
 const OrderForm: React.FC = () => {
     const [receiptType, setReceiptType] = useState<string>('Доставка');
-    const [promoCode, setPromoCode] = useState<string>(''); // Добавляем состояние для промо-кода
-    const [discount, setDiscount] = useState<number>(0); // Состояние для хранения примененной скидки
+    const [promoCode, setPromoCode] = useState<string>('');
+    const [discount, setDiscount] = useState<number>(0);
     console.log(discount);
-    const navigate = useNavigate()
+    
+    const [usePoints, setUsePoints] = useState<boolean>(false); // Состояние для чекбокса
+    const [pointsToUse, setPointsToUse] = useState<number>(0); // Состояние для баллов
+    const navigate = useNavigate();
 
     const [paymentMethod, setPaymentMethod] = useState<string>('bankCard');
     const dispatch = useAppDispatch();
     const { data } = useAppSelector((state) => state.cart);
-    const points = useAppSelector((state) => state.point)
-    const delivery = useAppSelector((state) => state.delivary)
+    const points = useAppSelector((state) => state.point);
+    const delivery = useAppSelector((state) => state.delivary);
 
-    const AdressTitle = useAppSelector((state) => state.adresses.adressTitle)
+    const AdressTitle = useAppSelector((state) => state.adresses.adressTitle);
+    const loyaltyPoints = useAppSelector((state) => state.user.data?.loyalty_points || 0); // Баллы клиента
+
     useEffect(() => {
         const cartId = localStorage.getItem('cart_id');
         if (cartId) {
@@ -44,6 +49,23 @@ const OrderForm: React.FC = () => {
         setPaymentMethod(value);
     };
 
+    const handleUsePointsChange = (e: any) => {
+        setUsePoints(e.target.checked);
+        if (!e.target.checked) {
+            setPointsToUse(0);
+        }
+    };
+
+    const handlePointsInputChange = (e: any) => {
+        const inputPoints = Number(e.target.value);
+        if (inputPoints > loyaltyPoints) {
+            message.error(`Вы не можете использовать больше чем ${loyaltyPoints} баллов`);
+            setPointsToUse(loyaltyPoints);
+        } else {
+            setPointsToUse(inputPoints);
+        }
+    };
+
     const delte = async (id: number) => {
         try {
             await api.deleteCartItemById(id).then(() => {
@@ -54,10 +76,13 @@ const OrderForm: React.FC = () => {
             console.log(error);
         }
     };
-
+    const totalPricePRODUCT = (data.items?.reduce(
+        (acc: number, item: any) => acc + parseFloat(item.product.price) * item.quantity, 0
+    ) || 0)
     const totalPrice = (data.items?.reduce(
         (acc: number, item: any) => acc + parseFloat(item.product.price) * item.quantity, 0
-    ) || 0) - data.discount_amount; // 
+    ) || 0) - data.discount_amount - pointsToUse;
+
     useEffect(() => {
         if (receiptType === 'Доставка') {
             dispatch(createDelivary({ data: { lon: `${points.adressPoint[0]}`, lat: `${points.adressPoint[1]}` } }));
@@ -66,8 +91,6 @@ const OrderForm: React.FC = () => {
 
     const onFinish = async (values: any) => {
         const data = {
-            // full_name: values.full_name,
-            // whatsapp_number: values.whatsapp_number,
             billing_receipt_type: values.billing_receipt_type,
             delivery_price: delivery.data.price,
             street: AdressTitle,
@@ -76,19 +99,15 @@ const OrderForm: React.FC = () => {
             note: values.note,
             status: true,
             parent: 0,
-            change_price: values.change_price
-
+            change_price: values.change_price,
+            points_used: pointsToUse // Добавляем количество использованных баллов
         };
 
         dispatch(createBiling({
             data: data
         })).then((res) => {
-
-
-            navigate(`/code/${res?.payload?.payment_code}`)
-
-        })
-
+            navigate(`/code/${res?.payload?.payment_code}`);
+        });
     };
 
     const applyPromoCode = async () => {
@@ -103,6 +122,7 @@ const OrderForm: React.FC = () => {
             message.error('Не удалось применить промо-код');
         }
     };
+
     return (
         <div className="order-container">
             <div className="he">
@@ -128,8 +148,6 @@ const OrderForm: React.FC = () => {
                             </Radio.Group>
                         </Form.Item>
 
-
-
                         <Form.Item initialValue="bankCard" label="Метод оплаты" name="payment_method">
                             <Select defaultValue="bankCard" onChange={handlePaymentMethodChange}>
                                 <Option value="bankCard">Банковская карта</Option>
@@ -148,10 +166,30 @@ const OrderForm: React.FC = () => {
                             <Input placeholder="Введите номер телефона" />
                         </Form.Item>
 
-
                         <Form.Item label="Комментарий к заказу" name="comment">
                             <Input.TextArea rows={3} placeholder="Укажите тут дополнительную информацию для курьера" />
                         </Form.Item>
+
+                        {/* Чекбокс для использования баллов */}
+                        <Form.Item>
+                            <Checkbox checked={usePoints} onChange={handleUsePointsChange}>
+                                Потратить баллы
+                            </Checkbox>
+                        </Form.Item>
+
+                        {/* Инпут для ввода баллов */}
+                        {usePoints && (
+                            <Form.Item label={`Доступно баллов: ${loyaltyPoints}`}>
+                                <Input
+                                    type="number"
+                                    value={pointsToUse}
+                                    onChange={handlePointsInputChange}
+                                    max={loyaltyPoints} // Ограничение
+                                    placeholder="Количество баллов"
+                                />
+                            </Form.Item>
+                        )}
+
                         <Form.Item>
                             <Button type="primary" htmlType="submit" block>
                                 Оформить заказ
@@ -172,7 +210,6 @@ const OrderForm: React.FC = () => {
                         dataSource={data.items}
                         renderItem={(item: any) => (
                             <List.Item
-
                                 actions={[
                                     <div className='rightBar'>
                                         <Button onClick={() => delte(item.id)} style={{ width: '32px', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '0px 0px 0px 7px' }} type='text' icon={<DeleteOutlined style={{ color: 'red' }} />}>      </Button>
@@ -212,8 +249,7 @@ const OrderForm: React.FC = () => {
                 <br />
                 <h3>Итого: {totalPrice} c</h3>
                 <div className="order-details">
-                    <p>Стоимость товаров: {totalPrice + data.discount_amount} c</p>
-
+                    <p>Стоимость товаров: {totalPricePRODUCT} c</p>
                     <p>Скидка: {data.discount_amount}</p>
                     {
                         receiptType === 'Доставка' && <>
@@ -221,15 +257,13 @@ const OrderForm: React.FC = () => {
                             <p>Растояние: {delivery.data.distanse}</p>
                             <p>Примерное время доставки: {delivery.data.time as any}</p></>
                     }
-
-                    {/* <p>Доставка: 120 c</p> */}
                 </div>
 
                 <Button type="primary" size="large" block>
                     Перейти к оплате
                 </Button>
             </div>
-        </div >
+        </div>
     );
 };
 

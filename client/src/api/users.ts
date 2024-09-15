@@ -9,7 +9,7 @@ const getUser = (sourceToken?: CancelToken) =>
     instance.get<IUser[]>(`/users`, { cancelToken: sourceToken });
 
 const getUserById = (id: number, sourceToken?: CancelToken) =>
-    instance.get<IUser>(`/users/${id}`, { cancelToken: sourceToken });
+    instance.get<IUser>(`/users/users/${id}`, { cancelToken: sourceToken });
 
 const createUser = (data: IUserDto, sourceToken?: CancelToken) =>
     instance.post('/users', { ...data }, { cancelToken: sourceToken });
