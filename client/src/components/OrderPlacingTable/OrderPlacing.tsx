@@ -66,7 +66,6 @@ const OrderFormTable: React.FC = () => {
 
     const applyPromoCode = async () => {
         try {
-            const table_key = localStorage.getItem('table_key');
             const response = await api.applyPromoCodeTable({ session_key: localStorage.getItem('session_key'), promo_code: promoCode });
             setDiscount(response.data.discount_amount);
             message.success(response.data.success);
