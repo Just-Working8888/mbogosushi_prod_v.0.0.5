@@ -14,6 +14,7 @@ import { fetchProduct } from '../../../store/reducers/productReduser';
 import Protected from '../../../components/Protected/Protected';
 import AuthModal from '../../../components/Auth/Auth';
 import CartDrawer from '../../../components/CartBarTable/CartBar';
+import UserProfileDrawer from '../../../components/Profile/Profile';
 const scrollToTop = () => {
     window.scrollTo({
         top: 0,
@@ -182,6 +183,9 @@ const HeaderTable: React.FC = () => {
                             <button className="button" onClick={toggleSearch}>
                                 <SearchOutlined />
                             </button>
+                            <Protected fallback={<></>}>
+                                <UserProfileDrawer />
+                            </Protected>
                         </Flex>
                     </nav>
 
@@ -200,6 +204,9 @@ const HeaderTable: React.FC = () => {
 
             <div className={'mobile_cart'}>
                 <CartDrawer />
+                <Protected fallback={<></>}>
+                    <UserProfileDrawer />
+                </Protected>
                 {location.pathname.includes('/tablebiling') ? (
                     <button onClick={() => navigate(`/table/${tableid}/menu`)} className='buttonn' style={{ color: 'white' }}>Меню</button>
                 ) : (

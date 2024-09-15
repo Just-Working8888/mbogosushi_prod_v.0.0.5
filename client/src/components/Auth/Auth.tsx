@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { Button, Checkbox, Form, Input, message, Modal } from 'antd';
-import axios from 'axios';
 import classes from './AuthModal.module.scss';
 import { useAppDispatch } from '../../store/hook';
-import { loginAsync, registerAsync } from '../../store/reducers/authRedusers';
+import { loginAsync } from '../../store/reducers/authRedusers';
 import { setCookie } from '../../helpers/cookies';
 
 const AuthModal: React.FC<{ visible: boolean, onClose: () => void }> = ({ visible, onClose }) => {
@@ -23,11 +22,15 @@ const AuthModal: React.FC<{ visible: boolean, onClose: () => void }> = ({ visibl
                 onClose();
             }
         } catch (err: any) {
-            if (axios.isAxiosError(err) && err.response) {
-                if (err.response.data.password) {
-                    err.response.data.password.forEach((error: string) => message.error(error));
-                } else {
-                    message.error(err.response.data.message || 'Ошибка авторизации.');
+            setLoading(false);
+            if (err.response && err.response.data) {
+                const errors = err.response.data;
+                for (const key in errors) {
+                    if (Array.isArray(errors[key])) {
+                        errors[key].forEach((error: string) => message.error(`${key}: ${error}`));
+                    } else {
+                        message.error(errors[key]);
+                    }
                 }
             } else {
                 message.error('Ошибка соединения с сервером.');
@@ -36,38 +39,47 @@ const AuthModal: React.FC<{ visible: boolean, onClose: () => void }> = ({ visibl
             setLoading(false);
         }
     };
+
 
     const onFinishRegister = async (values: any) => {
         try {
             setLoading(true);
-            const response = await dispatch(registerAsync({
-                username: values.username,
-                password: values.password,
-                password2: values.password2
-            }));
-            if (response.payload.access) {
-                message.success('Login successful');
-                setCookie('access_token', response.payload.access, 30);
-                localStorage.setItem('user_id', response.payload.user_id);
+            const response = await fetch('https://docker.mnogosushi.kg/api/v1/users/users/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    username: values.username,
+                    password: values.password,
+                    password2: values.password2,
+                }),
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                message.success('Registration successful');
+                setCookie('access_token', data.access, 30);
+                localStorage.setItem('user_id', data.user_id);
                 onClose();
-            }
-        } catch (err: any) {
-            console.log(err, 'sex');
-            if (axios.isAxiosError(err) && err.response) {
-                if (err.response.data.password) {
-                    err.response.data.password.forEach((error: string) => message.error(error));
-                } else {
-
-
-                    message.error(err.response.data.message || 'Ошибка регистрации.');
-                }
             } else {
-                message.error('Ошибка соединения с сервером.');
+                // Обрабатываем ошибки, которые пришли с сервера
+                for (const key in data) {
+                    if (Array.isArray(data[key])) {
+                        data[key].forEach((error: string) => message.error(`${key}: ${error}`));
+                    } else {
+                        message.error(data[key]);
+                    }
+                }
             }
+        } catch (error) {
+            message.error('Ошибка соединения с сервером.');
         } finally {
             setLoading(false);
         }
     };
+
 
 
     return (

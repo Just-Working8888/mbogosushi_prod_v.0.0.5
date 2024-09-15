@@ -14,6 +14,7 @@ import { deleteCookie } from '../../helpers/cookies';
 import { CSSTransition } from 'react-transition-group';
 import './Header.module.scss';  // Подключаем файл стилей
 import { fetchProduct } from '../../store/reducers/productReduser';
+import UserProfileDrawer from '../Profile/Profile';
 const scrollToTop = () => {
     window.scrollTo({
         top: 0,
@@ -180,6 +181,13 @@ const Header: React.FC = () => {
                             <button className="button" onClick={toggleSearch}>
                                 <SearchOutlined />
                             </button>
+                            <div>
+                                <Protected fallback={<></>}>
+                                <UserProfileDrawer />
+                                </Protected>
+                        
+
+                            </div>
                         </Flex>
                     </nav>
 
@@ -198,9 +206,11 @@ const Header: React.FC = () => {
 
             <div className={classes.mobile_cart}>
                 <CartDrawer />
+                <UserProfileDrawer />
                 <button onClick={() => navigate('/order')} className='buttonn' style={{ color: 'white' }}>Оформить</button>
             </div>
             <div className="floatButton">
+   
                 <CartDrawer />
             </div>
         </>

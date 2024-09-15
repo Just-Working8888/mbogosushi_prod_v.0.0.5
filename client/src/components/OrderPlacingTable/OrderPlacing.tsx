@@ -48,11 +48,19 @@ const OrderFormTable: React.FC = () => {
     ) || 0) - discount;
     const serviceCharge = totalPrice * 0.15;
     const onFinish = async (values: any) => {
-        const data = {
+        const data = localStorage.getItem('user_id') ? {
             session_key: localStorage.getItem('session_key') as any,
             menu_table: Number(tableid),
             promo_code: true,
             discount_amount: 0,
+            user_id: Number(localStorage.getItem('user_id')),
+            ...values
+        } : {
+            session_key: localStorage.getItem('session_key') as any,
+            menu_table: Number(tableid),
+            promo_code: true,
+            discount_amount: 0,
+
             ...values
         }
 
@@ -69,8 +77,12 @@ const OrderFormTable: React.FC = () => {
             const response = await api.applyPromoCodeTable({ session_key: localStorage.getItem('session_key'), promo_code: promoCode });
             setDiscount(response.data.discount_amount);
             message.success(response.data.success);
+
         } catch (error) {
             message.error('Не удалось применить промо-код');
+        } finally {
+            dispatch(fetchOrderItemById({ id: Number(localStorage.getItem('table_key')) }));
+
         }
     };
 

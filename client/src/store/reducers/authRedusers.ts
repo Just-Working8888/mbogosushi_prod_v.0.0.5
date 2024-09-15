@@ -18,7 +18,8 @@ export const registerAsync = createAsyncThunk(
     'auth/register',
     async ({ username, password, password2 }: { username: string; password: string, password2: string }) => {
         const response = await api.register(username, password, password2);
-      
+        console.log(response, 'sex');
+
 
         return response.data;
     }
