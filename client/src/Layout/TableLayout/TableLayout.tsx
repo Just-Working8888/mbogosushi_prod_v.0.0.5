@@ -16,6 +16,7 @@ export default function TableLayout() {
         const key = setSessionKey()
 
         if (!table_key) {
+            localStorage.removeItem('session_key')
             dispatch(createTableOrder({
                 data: {
                     session_key: key,
