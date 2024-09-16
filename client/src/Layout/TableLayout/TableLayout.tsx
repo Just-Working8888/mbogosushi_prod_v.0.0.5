@@ -13,10 +13,11 @@ export default function TableLayout() {
     const table_key = localStorage.getItem('table_key');
     const { tableid } = useParams()
     useEffect(() => {
-        const key = setSessionKey()
 
         if (!table_key) {
-            localStorage.removeItem('session_key')
+            // localStorage.removeItem('session_key')
+            const key = setSessionKey()
+
             dispatch(createTableOrder({
                 data: {
                     session_key: key,
