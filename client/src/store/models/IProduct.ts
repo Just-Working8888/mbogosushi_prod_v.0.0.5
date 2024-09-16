@@ -10,7 +10,7 @@ export interface IProduct {
     sku: string
     created: string
     category: number
-    loyalty_points: string | number
+    // loyalty_points: string | number
     product_reviews?: IReviews[]
     average_rating?: number
     ingredients?: {
