@@ -14,10 +14,11 @@ type PizzaCardProps = {
     description: string;
     price: string;
     isNew?: boolean;
+    loyalty_points: string | number
     id: number
 };
 
-const PizzaCard: React.FC<PizzaCardProps> = ({ image, name, description, price, isNew, id }) => {
+const PizzaCard: React.FC<PizzaCardProps> = ({ image, name, description, price, isNew, id, loyalty_points }) => {
     const navigate = useNavigate()
     const dispatch = useAppDispatch()
     function add() {
@@ -49,7 +50,7 @@ const PizzaCard: React.FC<PizzaCardProps> = ({ image, name, description, price, 
         <div className="pizza-card">
             <div onClick={() => navigate(`product/${id}`)} className="image-wrapper">
                 <img src={image} alt={name} className="pizza-image" />
-                {isNew && <span className="new-label">Новинка</span>}
+                {isNew && <span className="new-label">получите баллы {loyalty_points}</span>}
             </div>
             <div className="pizza-info">
                 <h3 className="pizza-name">{name}</h3>

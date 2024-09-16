@@ -5,7 +5,6 @@ import { setOffcet } from '../../store/slices/windowSlice';
 import CardSceleton from '../Sceletons/CardSceleton/CardSceleton';
 import { Divider } from 'antd';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import { IProduct } from '../../store/models/IProduct';
 import { fetchProduct } from '../../store/reducers/productReduser';
 import { formatParams } from '../../helpers/convertProps';
 import { setTargetId } from '../../store/slices/scroolSlice';
@@ -75,7 +74,7 @@ const PizzaList: React.FC = () => {
                         endMessage={<Divider plain>Это все, ничего больше. 🤐</Divider>}
                         scrollableTarget="scrollableDiv"
                     >
-                        {data.map((pizza: IProduct, index) => (
+                        {data.map((pizza: any, index) => (
                             <PizzaCard
                                 key={index}
                                 id={pizza.id}
@@ -83,6 +82,8 @@ const PizzaList: React.FC = () => {
                                 name={pizza.title}
                                 description={pizza.description}
                                 price={pizza.price}
+                                
+                                loyalty_points={pizza?.loyalty_points}
                                 isNew={true}
                             />
                         ))}
