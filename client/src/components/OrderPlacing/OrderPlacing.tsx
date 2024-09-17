@@ -16,7 +16,7 @@ import { useNavigate } from 'react-router-dom';
 const { Option } = Select;
 
 const OrderForm: React.FC = () => {
-    const [receiptType, setReceiptType] = useState<string>('Доставка');
+    const [receiptType, setReceiptType] = useState<string>('Самовывоз');
     const [promoCode, setPromoCode] = useState<string>('');
     const [discount, setDiscount] = useState<number>(0);
     console.log(discount);
@@ -166,7 +166,7 @@ const OrderForm: React.FC = () => {
                             <Input placeholder="Введите номер телефона" />
                         </Form.Item>
 
-                        <Form.Item label="Комментарий к заказу" name="comment">
+                        <Form.Item label="Комментарий к заказу" name="note">
                             <Input.TextArea rows={3} placeholder="Укажите тут дополнительную информацию для курьера" />
                         </Form.Item>
 
@@ -179,7 +179,7 @@ const OrderForm: React.FC = () => {
 
                         {/* Инпут для ввода баллов */}
                         {usePoints && (
-                            <Form.Item label={`Доступно баллов: ${loyaltyPoints}`}>
+                            <Form.Item name={'points'} label={`Доступно баллов: ${loyaltyPoints}`}>
                                 <Input
                                     type="number"
                                     value={pointsToUse}

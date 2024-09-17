@@ -411,7 +411,7 @@
 
     // Адаптация для мобильных устройств
     @media (max-width: 768px) {
-        flex-direction: column;
+        // flex-direction: column;
         padding: 10px;
 
         &__logo {

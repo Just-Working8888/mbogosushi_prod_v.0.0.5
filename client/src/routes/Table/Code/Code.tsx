@@ -5,6 +5,7 @@ import { useParams } from 'react-router-dom';
 // @ts-ignore
 import html2pdf from 'html2pdf.js';
 import classes from './Shop.module.scss';
+import html2canvas from 'html2canvas';
 
 const Code: FC = () => {
     const [billingData, setBillingData] = useState<any>(null);
@@ -28,21 +29,42 @@ const Code: FC = () => {
     };
 
     const contentRef = useRef<HTMLDivElement>(null);
-
-    const generatePDF = () => {
+    const generatePDF = async () => {
         if (contentRef.current) {
+            const worker = new Worker(new URL('./pdfWorker.js', import.meta.url));
+
             const options = {
                 margin: 1,
                 filename: 'check.pdf',
-                image: { type: 'jpeg', quality: 0.98 },
-                html2canvas: { scale: 2 },
                 jsPDF: {
                     unit: 'mm',
-                    format: [80, contentRef.current.offsetHeight], // 80mm ширина, высота будет зависеть от содержимого
+                    format: [80, contentRef.current.offsetHeight],
                     orientation: 'portrait',
                 },
             };
-            html2pdf().from(contentRef.current).set(options).save();
+
+            // Используем html2canvas для рендеринга элемента в изображение
+            const canvas = await html2canvas(contentRef.current, { scale: 2 });
+            const imgData = canvas.toDataURL('image/jpeg', 0.98); // Изображение в формате base64
+
+            // Вычисляем пропорции изображения
+            const img = new Image();
+            img.src = imgData;
+            img.onload = () => {
+                const imgWidth = 80; // Ширина в мм (фиксированная)
+                const imgHeight = (img.height * imgWidth) / img.width; // Высота рассчитывается на основе пропорций
+
+                // Отправляем изображение и его размеры в Web Worker
+                worker.postMessage({ imgData, imgWidth, imgHeight, options });
+
+                worker.onmessage = (e) => {
+                    const pdfBlob = e.data;
+                    const link = document.createElement('a');
+                    link.href = URL.createObjectURL(new Blob([pdfBlob], { type: 'application/pdf' }));
+                    link.download = options.filename;
+                    link.click();
+                };
+            };
         }
     };
 
@@ -102,7 +124,7 @@ const Code: FC = () => {
                             <p><strong>Телефон:</strong> +996 550‒03‒00‒40</p>
 
                             <p><strong>Адресc:</strong> ​Токтогула, 90​1 этаж
-                            Первомайский район, Бишкек,</p>
+                                Первомайский район, Бишкек,</p>
 
                         </Card>
                     </div>

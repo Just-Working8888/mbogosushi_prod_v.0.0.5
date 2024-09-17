@@ -3,7 +3,7 @@ import PizzaCardTable from '../PizzaCardTable/PizzaCard';
 import { useAppDispatch, useAppSelector } from '../../store/hook';
 import { setOffcet } from '../../store/slices/windowSlice';
 import CardSceleton from '../Sceletons/CardSceleton/CardSceleton';
-import { Divider } from 'antd';
+import { Divider, Tag } from 'antd';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { fetchProduct } from '../../store/reducers/productReduser';
 import { formatParams } from '../../helpers/convertProps';
@@ -13,6 +13,7 @@ const PizzaListTable: React.FC = () => {
 
     const dispatch = useAppDispatch()
     const data = useAppSelector((state) => state.product.data.results)
+    const sex = useAppSelector((state) => state.table.table)
     const hasNext = useAppSelector((state) => state.product.data.next)
     const { menuprops } = useAppSelector((state) => state.window)
     const { laoding } = useAppSelector((state) => state.product)
@@ -33,8 +34,13 @@ const PizzaListTable: React.FC = () => {
     }, [menuprops])
     return (
         <div className='sushilistsex'>
-
-            <div id={targetId} className="pizza-list" style={{ paddingTop: '8rem' }}>
+            <Tag color='red'>
+                <h3> {sex.title}</h3>
+                <h4><strong>стол номер:</strong>{sex.number}</h4>
+            </Tag>
+            <br />
+            <br />
+            <div id={targetId} className="pizza-list" >
 
                 {laoding ?
                     <>
