@@ -12,6 +12,7 @@ import SearchComponent from '../TestLocationSerch/TestLocationSearch';
 import { createBiling } from '../../store/reducers/bilingReduser';
 import { createDelivary } from '../../store/reducers/delivaryReduser';
 import { useNavigate } from 'react-router-dom';
+import Protected from '../Protected/Protected';
 
 const { Option } = Select;
 
@@ -20,7 +21,7 @@ const OrderForm: React.FC = () => {
     const [promoCode, setPromoCode] = useState<string>('');
     const [discount, setDiscount] = useState<number>(0);
     console.log(discount);
-    
+
     const [usePoints, setUsePoints] = useState<boolean>(false); // Состояние для чекбокса
     const [pointsToUse, setPointsToUse] = useState<number>(0); // Состояние для баллов
     const navigate = useNavigate();
@@ -30,7 +31,7 @@ const OrderForm: React.FC = () => {
     const { data } = useAppSelector((state) => state.cart);
     const points = useAppSelector((state) => state.point);
     const delivery = useAppSelector((state) => state.delivary);
-
+    const poooint = data?.points_used
     const AdressTitle = useAppSelector((state) => state.adresses.adressTitle);
     const loyaltyPoints = useAppSelector((state) => state.user.data?.loyalty_points || 0); // Баллы клиента
 
@@ -90,7 +91,21 @@ const OrderForm: React.FC = () => {
     }, [points, AdressTitle, receiptType]);
 
     const onFinish = async (values: any) => {
-        const data = {
+        console.log(values);
+
+        const data = localStorage.getItem('user_id') ? {
+            billing_receipt_type: values.billing_receipt_type,
+            user_id: localStorage.getItem('user_id'),
+            delivery_price: delivery.data.price,
+            street: AdressTitle,
+            phone: values.phone,
+            payment_method: values.payment_method,
+            note: values.note,
+            status: true,
+            parent: 0,
+            change_price: values.change_price,
+            points_used: Number(poooint) // Добавляем количество использованных баллов
+        } : {
             billing_receipt_type: values.billing_receipt_type,
             delivery_price: delivery.data.price,
             street: AdressTitle,
@@ -100,8 +115,7 @@ const OrderForm: React.FC = () => {
             status: true,
             parent: 0,
             change_price: values.change_price,
-            points_used: pointsToUse // Добавляем количество использованных баллов
-        };
+        }
 
         dispatch(createBiling({
             data: data
@@ -114,6 +128,24 @@ const OrderForm: React.FC = () => {
         try {
             const cartId = localStorage.getItem('cart_id');
             const response = await api.applyPromoCode({ cart_id: cartId, promo_code: promoCode });
+            setDiscount(response.data.discount_amount);
+            dispatch(fetchCartItemById({ id: Number(cartId) }));
+
+            message.success(response.data.success);
+        } catch (error) {
+            message.error('Не удалось применить промо-код');
+        }
+    };
+
+
+    const applyPoints = async () => {
+        try {
+            const cartId = localStorage.getItem('cart_id');
+            const response = await api.applyPoints({
+                "user_id": localStorage.getItem('user_id'),
+                "points_used": Number(pointsToUse),
+                "cart_id": localStorage.getItem('cart_id')
+            });
             setDiscount(response.data.discount_amount);
             dispatch(fetchCartItemById({ id: Number(cartId) }));
 
@@ -169,26 +201,30 @@ const OrderForm: React.FC = () => {
                         <Form.Item label="Комментарий к заказу" name="note">
                             <Input.TextArea rows={3} placeholder="Укажите тут дополнительную информацию для курьера" />
                         </Form.Item>
+                        <Protected fallback={<></>}>
+                            <>
+                                {/* Чекбокс для использования баллов */}
+                                <Form.Item>
+                                    <Checkbox checked={usePoints} onChange={handleUsePointsChange}>
+                                        Потратить баллы
+                                    </Checkbox>
+                                </Form.Item>
 
-                        {/* Чекбокс для использования баллов */}
-                        <Form.Item>
-                            <Checkbox checked={usePoints} onChange={handleUsePointsChange}>
-                                Потратить баллы
-                            </Checkbox>
-                        </Form.Item>
+                                {/* Инпут для ввода баллов */}
+                                {usePoints && (
+                                    <Form.Item name={'points'} label={`Доступно баллов: ${loyaltyPoints}`}>
+                                        <Input
+                                            type="number"
+                                            value={pointsToUse}
+                                            onChange={handlePointsInputChange}
+                                            max={loyaltyPoints} // Ограничение
+                                            placeholder="Количество баллов"
+                                        />
+                                        <Button onClick={applyPoints}>Использовать баллы</Button>
+                                    </Form.Item>
+                                )}</>
+                        </Protected>
 
-                        {/* Инпут для ввода баллов */}
-                        {usePoints && (
-                            <Form.Item name={'points'} label={`Доступно баллов: ${loyaltyPoints}`}>
-                                <Input
-                                    type="number"
-                                    value={pointsToUse}
-                                    onChange={handlePointsInputChange}
-                                    max={loyaltyPoints} // Ограничение
-                                    placeholder="Количество баллов"
-                                />
-                            </Form.Item>
-                        )}
 
                         <Form.Item>
                             <Button type="primary" htmlType="submit" block>
@@ -251,6 +287,7 @@ const OrderForm: React.FC = () => {
                 <div className="order-details">
                     <p>Стоимость товаров: {totalPricePRODUCT} c</p>
                     <p>Скидка: {data.discount_amount}</p>
+                    <p>Потрачено баллов:{data.points_used}</p>
                     {
                         receiptType === 'Доставка' && <>
                             <p>Адресc: {AdressTitle} </p>

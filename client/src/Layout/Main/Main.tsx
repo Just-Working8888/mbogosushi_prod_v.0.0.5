@@ -12,9 +12,11 @@ import Breadcrumbs from "../../components/BreadCrumps/BreadCrumps";
 export default function Main() {
     const dispatch = useAppDispatch()
     const cart_id = localStorage.getItem('cart_id');
+    const session_key = localStorage.getItem('session_key');
+
     useEffect(() => {
 
-        if (!cart_id) {
+        if (!cart_id && !session_key) {
             dispatch(createCart({
                 data: {
                     session_key: setSessionKey(),

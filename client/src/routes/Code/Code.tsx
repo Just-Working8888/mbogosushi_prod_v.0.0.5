@@ -31,7 +31,6 @@ const Code: FC = () => {
 
     const contentRef = useRef<HTMLDivElement>(null);
 
-
     const generatePDF = async () => {
         if (contentRef.current) {
             const worker = new Worker(new URL('./pdfWorker.js', import.meta.url));
@@ -46,18 +45,15 @@ const Code: FC = () => {
                 },
             };
 
-            // Используем html2canvas для рендеринга элемента в изображение
             const canvas = await html2canvas(contentRef.current, { scale: 2 });
-            const imgData = canvas.toDataURL('image/jpeg', 0.98); // Изображение в формате base64
+            const imgData = canvas.toDataURL('image/jpeg', 0.98);
 
-            // Вычисляем пропорции изображения
             const img = new Image();
             img.src = imgData;
             img.onload = () => {
-                const imgWidth = 80; // Ширина в мм (фиксированная)
-                const imgHeight = (img.height * imgWidth) / img.width; // Высота рассчитывается на основе пропорций
+                const imgWidth = 80;
+                const imgHeight = (img.height * imgWidth) / img.width;
 
-                // Отправляем изображение и его размеры в Web Worker
                 worker.postMessage({ imgData, imgWidth, imgHeight, options });
 
                 worker.onmessage = (e) => {
@@ -101,9 +97,10 @@ const Code: FC = () => {
                             <p><strong>Код оплаты:</strong> {billingData.payment_code}</p>
                             <p><strong>Комментарий:</strong> {billingData.note}</p>
                             <p><strong>Дата создания:</strong> {new Date(billingData.created).toLocaleString()}</p>
+                            <p><strong>Общая сумма:</strong> {billingData.total_price} сом</p>
+                            <p><strong>Использовано баллов:</strong> {billingData.points_used}</p>
 
                             <h3>Товары:</h3>
-                            <br />
                             <List
                                 bordered
                                 dataSource={billingData.billing_products}
@@ -128,7 +125,6 @@ const Code: FC = () => {
 
                             <p><strong>Адресc:</strong> ​Токтогула, 90​1 этаж
                                 Первомайский район, Бишкек,</p>
-
                         </Card>
                     </div>
                 )}

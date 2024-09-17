@@ -17,6 +17,7 @@ const initialState: cartState = {
         created: '',
         discount_amount: 0,
         promo_code: false,
+        points_used: 0,
         items: [],
     },
     status: 'idle',

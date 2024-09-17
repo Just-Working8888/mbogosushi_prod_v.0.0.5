@@ -16,11 +16,6 @@ export const createBiling = createAsyncThunk(
             const response = await api.createBilingItem(data, source.token);
 
             message.success(response.data.payment_code + '   Сохраните код оплаты')
-
-            return response.data;
-        } catch (error) {
-            message.error('Ошибка сервера')
-        } finally {
             localStorage.removeItem('cart_id')
             localStorage.removeItem('table_key')
             localStorage.removeItem('session_key')
@@ -40,7 +35,10 @@ export const createBiling = createAsyncThunk(
                 })
             }
 
-        }
+            return response.data;
+        } catch (error) {
+            message.error('Ошибка сервера')
+        } 
 
     }
 );

@@ -2,6 +2,7 @@ export interface ICart {
     id: number
     created: string
     promo_code: boolean
+    points_used: number
     discount_amount: number
     items: {
         id: number
