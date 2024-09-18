@@ -185,7 +185,7 @@ const UserProfileDrawer: React.FC = () => {
                     <Text>Не удалось загрузить данные пользователя.</Text>
                 )}
                 <br />
-                <h3>      История</h3>
+                <h3>      История заказов</h3>
                
                 <br />
                 <HistoryList />

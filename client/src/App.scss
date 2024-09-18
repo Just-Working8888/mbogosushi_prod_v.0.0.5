@@ -3,6 +3,7 @@
     margin: 0 auto;
     padding: 1rem;
 }
+
 .mobile_cart {
     display: flex;
     gap: 1rem;
@@ -19,6 +20,30 @@
     left: 0;
     width: 100%;
 }
+
+.rest {
+    .ant-card-head-title {
+        color: green;
+    }
+
+}
+
+.samv {
+    background-color: #34b3ff3d !important;
+
+    .ant-card-head-title {
+        color: #1677ff;
+    }
+}
+
+.dost {
+    background-color: #66339947;
+
+    .ant-card-head-title {
+        color: #70007f;
+    }
+}
+
 .product-card {
     background-color: #f9f9f9;
     border-radius: 10px;
