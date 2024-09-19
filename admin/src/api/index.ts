@@ -23,6 +23,7 @@ import adresses from './adresses'
 import delivary from './delivery'
 import promo from './promo'
 import telegramuser from './telegramUsers'
+import stories from './stories'
 import { getCookie } from '../helpers/cookies';
 
 const instance = axios.create({
@@ -71,7 +72,8 @@ const api = {
   ...adresses,
   ...delivary,
   ...promo,
-  ...telegramuser
+  ...telegramuser,
+  ...stories
 }
 
 export { instance, api };

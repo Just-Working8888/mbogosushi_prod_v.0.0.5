@@ -3,6 +3,7 @@ import SettingsForm from "../../components/SettingsForm/SettingsForm"
 import EmployeeList from "../../components/CMS/Emplayes/Emploes"
 import AboutUsFacts from "../../components/CMS/AboutUsFucts/AboutUsFucts"
 import AboutUsForm from "../../components/CMS/AboutUs/AboutUsForm"
+import Stories from "./Stories"
 const MainPage = () => {
   return (
     <div>
@@ -14,6 +15,7 @@ const MainPage = () => {
       <AboutUsFacts />
       <Divider>О нас</Divider>
       <AboutUsForm />
+      <Stories />
     </div>
   )
 }

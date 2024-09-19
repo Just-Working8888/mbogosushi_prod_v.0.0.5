@@ -29,6 +29,7 @@ const OrderForm: React.FC = () => {
     const [paymentMethod, setPaymentMethod] = useState<string>('bankCard');
     const dispatch = useAppDispatch();
     const { data } = useAppSelector((state) => state.cart);
+    const discounts = data.discount_amount
     const points = useAppSelector((state) => state.point);
     const delivery = useAppSelector((state) => state.delivary);
     const poooint = data?.points_used
@@ -104,6 +105,7 @@ const OrderForm: React.FC = () => {
             status: true,
             parent: 0,
             change_price: values.change_price,
+            promocode_used: discounts,
             points_used: Number(poooint) // Добавляем количество использованных баллов
         } : {
             billing_receipt_type: values.billing_receipt_type,
@@ -113,6 +115,8 @@ const OrderForm: React.FC = () => {
             payment_method: values.payment_method,
             note: values.note,
             status: true,
+            promocode_used: discounts,
+
             parent: 0,
             change_price: values.change_price,
         }

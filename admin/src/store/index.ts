@@ -16,6 +16,7 @@ import bilingReduser from './slices/bilingSlice'
 import promocodeReduser from './slices/promocodeSlice'
 import userReduser from './slices/userSlice'
 import telegramuserReduser from './slices/telegramUsers'
+import storiesReduser from './slices/storiesSlice'
 
 const store = configureStore({
   reducer: {
@@ -35,7 +36,8 @@ const store = configureStore({
     biling: bilingReduser,
     promo: promocodeReduser,
     user: userReduser,
-    telegramusers: telegramuserReduser
+    telegramusers: telegramuserReduser,
+    stories: storiesReduser
   },
 });
 
