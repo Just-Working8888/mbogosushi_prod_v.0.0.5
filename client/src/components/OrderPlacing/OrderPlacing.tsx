@@ -296,9 +296,9 @@ const OrderForm: React.FC = () => {
                     }
                 </div>
 
-                <Button type="primary" size="large" block>
+                {/* <Button type="primary" size="large" block>
                     Перейти к оплате
-                </Button>
+                </Button> */}
             </div>
         </div>
     );
