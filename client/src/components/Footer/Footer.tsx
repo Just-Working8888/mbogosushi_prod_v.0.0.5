@@ -6,9 +6,9 @@ const Footer: React.FC = () => {
             <div className="footer-top">
                 <div className="promo">
                     <span className="promo-text">
-                        Проверьте нашу кухню и получите  — хватит на две 
+                     Регистрируйтесь на нашем сайте и получяйте балыы
                     </span>
-                    <button className="promo-button">Заполнить анкету</button>
+                    {/* <button className="promo-button">Заполнить анкету</button> */}
                 </div>
             </div>
             <div className="footer-content">
@@ -17,14 +17,14 @@ const Footer: React.FC = () => {
                     <ul>
                         <li>О нас</li>
                         <li>Mnogosushi-книга</li>
-                        <li>Блог «Сила ума»</li>
+                        {/* <li>Блог «Сила ума»</li> */}
                         <li>Заявка на спонсорство</li>
                     </ul>
                 </div>
                 <div className="footer-section">
                     <h4>Работа</h4>
                     <ul>
-                        <li>В пиццерии</li>
+                        <li>В Mnogosishi</li>
                     </ul>
                 </div>
                 <div className="footer-section">
@@ -41,7 +41,7 @@ const Footer: React.FC = () => {
                     </ul>
                 </div>
                 <div className="footer-contacts">
-                    <div className="phone-number">0 (551) 560-550</div>
+                    <div className="phone-number">0 700‒03‒00‒40</div>
                     <div className="contact-info">
                         Звонок по телефону
                         <br />
