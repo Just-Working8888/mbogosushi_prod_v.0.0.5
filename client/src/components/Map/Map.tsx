@@ -1,7 +1,6 @@
+/// <reference types="@types/google.maps" />
+
 import React, { useEffect, useState } from 'react';
-//@ts-ignore
-import { load } from '@2gis/mapgl';
-import { MapWrapper } from './MapWrapper';
 import { useAppDispatch, useAppSelector } from '../../store/hook';
 import { setAdressTitle } from '../../store/slices/adressesSlice';
 import { createDelivary } from '../../store/reducers/delivaryReduser';
@@ -13,23 +12,23 @@ interface PointState {
 
 const MapTest: React.FC = () => {
     const points = useAppSelector((state: { point: PointState }) => state.point);
-
     const [map, setMap] = useState<any | null>(null);
     const markerRef = React.useRef<any | null>(null);
-    const dispatch = useAppDispatch()
+    const dispatch = useAppDispatch();
+    
     // Функция для обратного геокодирования
     const reverseGeocode = async (lngLat: [number, number]) => {
         const [longitude, latitude] = lngLat;
-        const apiKey = 'fd0b168d-047a-4bbc-8ccf-5c0f6144a84b'; // Замените на ваш API-ключ 2GIS
-        const url = `https://catalog.api.2gis.com/3.0/items/geocode?lon=${longitude}&lat=${latitude}&key=${apiKey}`;
+        const apiKey = 'YOUR_GOOGLE_MAPS_API_KEY'; // Замените на ваш API-ключ Google Maps
+        const url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=${apiKey}`;
 
         try {
             const response = await fetch(url);
             const data = await response.json();
-            if (data.result && data.result.items && data.result.items.length > 0) {
-                const address = data.result.items[0].full_name;
+            if (data.results && data.results.length > 0) {
+                const address = data.results[0].formatted_address;
                 console.log('Address:', address);
-                dispatch(setAdressTitle(address))
+                dispatch(setAdressTitle(address));
                 return address;
             } else {
                 console.log('Address not found');
@@ -42,91 +41,81 @@ const MapTest: React.FC = () => {
     };
 
     useEffect(() => {
-        load().then((mapglAPI: any) => {
-            const options: any = {
-                center: [74.593379, 42.878941], // Координаты центра карты
+        const initMap = () => {
+            const mapOptions = {
+                center: { lat: 42.878941, lng: 74.593379 }, // Координаты центра карты
                 zoom: 13,
-                key: 'fd0b168d-047a-4bbc-8ccf-5c0f6144a84b', // Замените на ваш API-ключ 2GIS
             };
 
-            const mapInstance = new mapglAPI.Map('map-container', options);
+            const mapInstance = new google.maps.Map(document.getElementById('map-container') as HTMLElement, mapOptions);
 
-            mapInstance.on('click', async (event: any) => {
-                const lngLat: [number, number] = [event.lngLat[0], event.lngLat[1]]; // Приведение типов
-                const address = await reverseGeocode(lngLat); // Вызов функции обратного геокодирования
-                console.log('Coordinates:', lngLat);
-                dispatch(setAdressTitle(address))
+            mapInstance.addListener('click', async (event: any) => {
+                const lngLat: [number, number] = [event.latLng.lng(), event.latLng.lat()];
+                const address = await reverseGeocode(lngLat);
+                
+                dispatch(setAdressTitle(address));
                 dispatch(createDelivary({
                     data: {
                         lon: `${lngLat[0]}`,
                         lat: `${lngLat[1]}`
                     }
-                }))
+                }));
+
                 // Удалить предыдущий маркер, если он существует
                 if (markerRef.current) {
-                    markerRef.current.destroy();
+                    markerRef.current.setMap(null);
                 }
 
                 // Добавить новый маркер
-                const newMarker = new mapglAPI.Marker(mapInstance, {
-                    coordinates: lngLat,
-                    label: {
-                        text: '' as any,
-                        offset: [0, -20],
-                    },
+                const newMarker = new google.maps.Marker({
+                    position: { lat: lngLat[1], lng: lngLat[0] },
+                    map: mapInstance,
                 });
 
                 markerRef.current = newMarker;
 
-                mapInstance.setCenter(lngLat);
+                mapInstance.setCenter({ lat: lngLat[1], lng: lngLat[0] });
                 mapInstance.setZoom(17);
             });
 
             setMap(mapInstance);
-        });
+        };
 
-        // Уничтожить карту при размонтировании компонента
+        if (!map) {
+            initMap();
+        }
+
         return () => {
-            if (map) {
-                map.destroy();
-            }
-            if (markerRef.current) {
-                markerRef.current.destroy();
+            if (map && markerRef.current) {
+                markerRef.current.setMap(null);
             }
         };
-    }, []); // Пустой массив зависимостей для инициализации карты только один раз
+    }, [map, points]);
 
     useEffect(() => {
         if (map && points && points.adressPoint) {
             const [lon, lat] = points.adressPoint;
-            map.setCenter([lon, lat]);
+            map.setCenter({ lat, lng: lon });
             map.setZoom(17);
 
             // Удалить предыдущий маркер, если он существует
             if (markerRef.current) {
-                markerRef.current.destroy();
+                markerRef.current.setMap(null);
             }
 
             // Добавить новый маркер на новые координаты
-            load().then((mapglAPI: any) => {
-                markerRef.current = new mapglAPI.Marker(map, {
-                    coordinates: points.adressPoint,
-                    label: {
-                        text: '' as any,
-                        offset: [0, -20],
-                    },
-                });
+            const newMarker = new google.maps.Marker({
+                position: { lat, lng: lon },
+                map,
             });
+
+            markerRef.current = newMarker;
         }
     }, [map, points]);
 
-
-    // Зависимость от points для центрирования карты при изменении
-
     return (
         <div>
-            <MapWrapper />
-
+            <div id="map-container" style={{ height: '500px', width: '100%' }}></div>
         </div>
     );
 }

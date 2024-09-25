@@ -106,7 +106,7 @@ const Header: React.FC = () => {
                             <AuthModal visible={auth} onClose={() => setAuth(false)} />
 
                             <div>
-                                <a href="tel:0 (551) 550-550">0 (551) 550-550</a>
+                                <a href="tel:+996 700 03 00 40">0 700‒03‒00‒40</a>
                                 <p>Звонок по телефону</p>
                             </div>
                         </Flex>
@@ -183,9 +183,9 @@ const Header: React.FC = () => {
                             </button>
                             <div>
                                 <Protected fallback={<></>}>
-                                <UserProfileDrawer />
+                                    <UserProfileDrawer />
                                 </Protected>
-                        
+
 
                             </div>
                         </Flex>
@@ -210,7 +210,7 @@ const Header: React.FC = () => {
                 <button onClick={() => navigate('/order')} className='buttonn' style={{ color: 'white' }}>Оформить</button>
             </div>
             <div className="floatButton">
-   
+
                 <CartDrawer />
             </div>
         </>
