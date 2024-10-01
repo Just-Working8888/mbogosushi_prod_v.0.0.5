@@ -6,7 +6,7 @@ const Footer: React.FC = () => {
             <div className="footer-top">
                 <div className="promo">
                     <span className="promo-text">
-                     Регистрируйтесь на нашем сайте и получяйте балыы
+                     Регистрируйтесь на нашем сайте и получяйте баллы
                     </span>
                     {/* <button className="promo-button">Заполнить анкету</button> */}
                 </div>
