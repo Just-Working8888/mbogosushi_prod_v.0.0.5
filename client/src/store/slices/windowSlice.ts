@@ -29,9 +29,12 @@ const windowSlice = createSlice({
         setCategory: (state, action: PayloadAction<number>) => {
             state.menuprops.category = action.payload
         },
+        setLimit: (state, action: PayloadAction<number>) => {
+            state.menuprops.limit = action.payload
+        },
     }
 });
 
-export const { setOffcet, setCategory } = windowSlice.actions;
+export const { setOffcet, setCategory, setLimit } = windowSlice.actions;
 
 export default windowSlice.reducer;
