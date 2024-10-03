@@ -7,8 +7,8 @@ import { removeItem } from '../../store/slices/cartSlice';
 import { fetchCartItemById } from '../../store/reducers/cartReduser';
 import { useAppDispatch, useAppSelector } from '../../store/hook';
 import Counter from '../CartBar/Counter/Counter';
-import MapTest from '../Map/Map';
-import SearchComponent from '../TestLocationSerch/TestLocationSearch';
+// import MapTest from '../Map/Map';
+// import SearchComponent from '../TestLocationSerch/TestLocationSearch';
 import { createBiling } from '../../store/reducers/bilingReduser';
 import { createDelivary } from '../../store/reducers/delivaryReduser';
 import { useNavigate } from 'react-router-dom';
@@ -20,6 +20,7 @@ const OrderForm: React.FC = () => {
     const [receiptType, setReceiptType] = useState<string>('Самовывоз');
     const [promoCode, setPromoCode] = useState<string>('');
     const [discount, setDiscount] = useState<number>(0);
+    const [adres, setAdres] = useState('')
     console.log(discount);
 
     const [usePoints, setUsePoints] = useState<boolean>(false); // Состояние для чекбокса
@@ -97,8 +98,9 @@ const OrderForm: React.FC = () => {
         const data = localStorage.getItem('user_id') ? {
             billing_receipt_type: values.billing_receipt_type,
             user_id: localStorage.getItem('user_id'),
-            delivery_price: delivery.data.price,
-            street: AdressTitle,
+            delivery_price: "250",
+            // delivery_price: delivery.data.price,
+            street: adres,
             phone: values.phone,
             payment_method: values.payment_method,
             note: values.note,
@@ -109,14 +111,14 @@ const OrderForm: React.FC = () => {
             points_used: Number(poooint) // Добавляем количество использованных баллов
         } : {
             billing_receipt_type: values.billing_receipt_type,
-            delivery_price: delivery.data.price,
-            street: AdressTitle,
+            delivery_price: "250",
+            // delivery_price: delivery.data.price,
+            street: adres,
             phone: values.phone,
             payment_method: values.payment_method,
             note: values.note,
             status: true,
             promocode_used: discounts,
-
             parent: 0,
             change_price: values.change_price,
         }
@@ -167,8 +169,9 @@ const OrderForm: React.FC = () => {
                         <h2> Адрес доставки</h2>
                         <br />
                         <>
-                            <MapTest />
-                            <SearchComponent />
+                            <Input onChange={(e) => setAdres(e.target.value)} placeholder='Адрес' />
+                            {/* <MapTest />
+                            <SearchComponent /> */}
                             <br />
                         </>
                     </div>

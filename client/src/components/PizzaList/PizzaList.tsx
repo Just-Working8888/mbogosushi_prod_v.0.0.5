@@ -96,7 +96,7 @@ const PizzaList: React.FC = () => {
                             <PizzaCard
                                 key={index}
                                 id={pizza.id}
-                                image={pizza.iiko_image}
+                                image={pizza.image ? pizza.image : pizza.iiko_image}
                                 name={pizza.title}
                                 description={pizza.description}
                                 price={pizza.price}
