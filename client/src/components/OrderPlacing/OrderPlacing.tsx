@@ -277,18 +277,22 @@ const OrderForm: React.FC = () => {
                     />
                 </div>
                 <br />
-                {!data.promo_code && <div className="promo-code-section">
-                    <h3>Введите промо-код:</h3>
-                    <Input
-                        placeholder="Введите промо-код"
-                        value={promoCode}
-                        onChange={(e) => setPromoCode(e.target.value)}
-                        style={{ marginBottom: '10px' }}
-                    />
-                    <Button type="primary" onClick={applyPromoCode} block>
-                        Применить промо-код
-                    </Button>
-                </div>}
+                {!data.promo_code &&
+                    <Protected fallback={<p>Авторизуйтесь чтобы использовать промокод</p>}>
+                        <div className="promo-code-section">
+                            <h3>Введите промо-код:</h3>
+                            <Input
+                                placeholder="Введите промо-код"
+                                value={promoCode}
+                                onChange={(e) => setPromoCode(e.target.value)}
+                                style={{ marginBottom: '10px' }}
+                            />
+                            <Button type="primary" onClick={applyPromoCode} block>
+                                Применить промо-код
+                            </Button>
+                        </div>
+                    </Protected>
+                }
                 <br />
                 <h3>Итого: {totalPrice} c</h3>
                 <div className="order-details">
@@ -307,7 +311,7 @@ const OrderForm: React.FC = () => {
                     Перейти к оплате
                 </Button> */}
             </div>
-        </div>
+        </div >
     );
 };
 
