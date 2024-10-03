@@ -11,7 +11,15 @@ const ProductSelectedPage = () => {
     const { id } = useParams()
 
     const { product } = useAppSelector((state) => state.product)
-
+    const scrollToTop = () => {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth' // для плавной прокрутки
+        });
+    };
+    useEffect(() => {
+        scrollToTop()
+    }, [])
 
     useEffect(() => {
         dispatch(fetchProduct({ filters: '' }))
