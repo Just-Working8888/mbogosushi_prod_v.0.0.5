@@ -42,7 +42,7 @@ jobs:
 
       - name: Deploy
         run: |
-          cd ${{ matrix.app }}
+          # cd ${{ matrix.app }}
           # Добавьте команду для развертывания вашего приложения
           # Например, если используете GitHub Pages, используйте npx gh-pages -d build
           echo "Deploying ${matrix.app} application..."
