@@ -46,8 +46,9 @@ jobs:
           echo "Connecting to server..."
           
           # Используем sshpass для подключения
-          export SSHPASS=${{ secrets.SSH_PASSWORD }}
-          
+          export SSHPASS=${{ secrets.SSH_PASSWORD }} # Убедитесь, что пароль задан
+
+          # Исправленный вызов ssh с указанием пользователя
           sshpass -e ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USERNAME }}@90.156.230.50 << 'EOF'
             echo "Connected to server successfully."
             cd mbogosushi_prod_v.0.0.5 || { echo "Failed to cd"; exit 1; }
