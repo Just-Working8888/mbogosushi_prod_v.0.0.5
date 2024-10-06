@@ -1,7 +1,10 @@
-name: CI/CD Pipeline
+name: React CI/CD
 
 on:
   push:
+    branches:
+      - main
+  pull_request:
     branches:
       - main
 
@@ -9,39 +12,40 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+    strategy:
+      matrix:
+        app: [admin, client]
+
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-    - name: Set up Node.js
-      uses: actions/setup-node@v2
-      with:
-        node-version: '14'  # Укажите вашу версию Node.js
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: "14" # Укажите вашу версию Node.js
 
-    - name: Install dependencies
-      run: |
-        cd ${{ matrix.app }}
-        npm install --force
+      - name: Install dependencies
+        run: |
+          cd ${{ matrix.app }}
+          npm install --force
 
-    - name: Run tests
-      run: |
-        cd ${{ matrix.app }}
-        npm test -- --watchAll=false
+      - name: Run tests
+        run: |
+          cd ${{ matrix.app }}
+          npm test -- --watchAll=false
 
-    - name: Build application
-      run: |
-        cd ${{ matrix.app }}
-        npm run build
+      - name: Build application
+        run: |
+          cd ${{ matrix.app }}
+          npm run build
 
-    - name: Deploy to remote server via SSH
-      if: success()  # Выполняется только если предыдущие шаги прошли успешно
-      run: |
-        echo "Deploying to remote server..."
-        sshpass -p ${{ secrets.SSH_PASSWORD }} ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USERNAME }}@90.156.230.50 << EOF
-          cd mbogosushi_prod_v.0.0.5
-          docker-compose -f docker/docker-compose.server.yml up -d --build
-        EOF
-      env:
-        SSH_PASSWORD: ${{ secrets.SSH_PASSWORD }}
-        SSH_USERNAME: ${{ secrets.SSH_USERNAME }}
-
+      - name: Deploy
+        run: |
+          echo "Deploying ${{ matrix.app }} application..."
+          cd ${{ matrix.app }}
+          # Здесь добавьте команду для развертывания вашего приложения
+          # Например, если используете GitHub Pages:
+          # npx gh-pages -d build
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Используйте GitHub token для доступа к репозиторию
