@@ -23,7 +23,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: "14" # Укажите вашу версию Node.js
+          node-version: "14"
 
       - name: Install dependencies
         run: |
@@ -40,15 +40,17 @@ jobs:
           cd ${{ matrix.app }}
           npm run build
 
+      # Устанавливаем sshpass для деплоя
+      - name: Install sshpass
+        run: sudo apt-get install -y sshpass
+
       - name: Deploy
         run: |
           echo "Deploying ${{ matrix.app }} application..."
-          echo "suka"
-          sshpass -p ${{ secrets.SSH_PASSWORD }} ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USERNAME }}@90.156.230.50 << EOF
-          cd mbogosushi_prod_v.0.0.5
-          docker-compose -f docker/docker-compose.server.yml up -d --build
+          sshpass -p ${{ secrets.SSH_PASSWORD }} ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USERNAME }}@90.156.230.50 << 'EOF'
+            cd mbogosushi_prod_v.0.0.5
+            docker-compose -f docker/docker-compose.server.yml up -d --build
           EOF
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Используйте GitHub token для доступа к репозиторию
           SSH_PASSWORD: ${{ secrets.SSH_PASSWORD }}
           SSH_USERNAME: ${{ secrets.SSH_USERNAME }}
