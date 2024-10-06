@@ -45,16 +45,14 @@ jobs:
           echo "Deploying ${{ matrix.app }} application..."
           echo "Connecting to server..."
           
-          # Использование sshpass для подключения
+          # Используем sshpass для подключения
           export SSHPASS=${{ secrets.SSH_PASSWORD }}
-          
-          sshpass -e ssh -o StrictHostKeyChecking=no -o LogLevel=quiet ${{ secrets.SSH_USERNAME }}@90.156.230.50 bash << 'EOF'
+
+          sshpass -e ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USERNAME }}@90.156.230.50 << 'EOF'
             echo "Connected to server successfully."
-            cd mbogosushi_prod_v.0.0.5 || exit
+            cd mbogosushi_prod_v.0.0.5 || { echo "Failed to cd"; exit 1; }
             echo "Running Docker Compose..."
-            docker-compose -f docker/docker-compose.server.yml up -d --build
+            docker-compose -f docker/docker-compose.server.yml up -d --build || { echo "Docker Compose failed"; exit 1; }
           EOF
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Используйте GitHub token для доступа к репозиторию
-          SSH_PASSWORD: ${{ secrets.SSH_PASSWORD }}
-          SSH_USERNAME: ${{ secrets.SSH_USERNAME }}
