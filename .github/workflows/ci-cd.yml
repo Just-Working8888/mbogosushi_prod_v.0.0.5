@@ -45,8 +45,10 @@ jobs:
           echo "Deploying ${{ matrix.app }} application..."
           echo "suka"
           sshpass -p ${{ secrets.SSH_PASSWORD }} ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USERNAME }}@90.156.230.50 << EOF
-          cd ${{ matrix.app }}
+          cd mbogosushi_prod_v.0.0.5
           docker-compose -f docker/docker-compose.server.yml up -d --build
           EOF
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Используйте GitHub token для доступа к репозиторию
+          SSH_PASSWORD: ${{ secrets.SSH_PASSWORD }}
+          SSH_USERNAME: ${{ secrets.SSH_USERNAME }}
