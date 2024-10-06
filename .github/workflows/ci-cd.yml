@@ -43,6 +43,7 @@ jobs:
       - name: Deploy
         run: |
           echo "Deploying ${{ matrix.app }} application..."
+          echo "suka"
           sshpass -p ${{ secrets.SSH_PASSWORD }} ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USERNAME }}@90.156.230.50 << EOF
           cd ${{ matrix.app }}
           docker-compose -f docker/docker-compose.server.yml up -d --build
