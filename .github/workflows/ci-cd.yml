@@ -46,13 +46,13 @@ jobs:
           echo "Connecting to server..."
           export SSHPASS=${{ secrets.SSH_PASSWORD }}
           
-          # Проверка соединения
-          sshpass -e ssh -o StrictHostKeyChecking=no -v ${{ secrets.SSH_USERNAME }}@90.156.230.50 << 'EOF'
+          # Проверка соединения и выполнение команд
+          sshpass -e ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USERNAME }}@90.156.230.50 bash -c '"
             echo "Connected to server successfully."
             cd mbogosushi_prod_v.0.0.5
             echo "Running Docker Compose..."
             docker-compose -f docker/docker-compose.server.yml up -d --build
-          EOF
+          "'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Используйте GitHub token для доступа к репозиторию
           SSH_PASSWORD: ${{ secrets.SSH_PASSWORD }}
