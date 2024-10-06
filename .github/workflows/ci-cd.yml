@@ -47,7 +47,8 @@ jobs:
       - name: Deploy
         run: |
           echo "Deploying ${{ matrix.app }} application..."
-          sshpass -p ${{ secrets.SSH_PASSWORD }} ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USERNAME }}@90.156.230.50 << 'EOF'
+          export SSHPASS=${{ secrets.SSH_PASSWORD }}
+          sshpass -e ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USERNAME }}@90.156.230.50 << 'EOF'
             cd mbogosushi_prod_v.0.0.5
             docker-compose -f docker/docker-compose.server.yml up -d --build
           EOF
