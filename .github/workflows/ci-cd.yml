@@ -45,7 +45,7 @@ jobs:
         with:
           host: 90.156.230.50
           username: binniev
-          password: ${{ secrets.SSH_PASSWORD }}  # Убедитесь, что пароль сохранен в секрете
+          password: obuW|76?cZ7c0OZ*jWs~T9sfcq3Xl4zG~XtKbgH1J*C{syRq~M  # Убедитесь, что пароль сохранен в секрете
           source: "./${{ matrix.app }}/dist/*"  # Путь к собранным артефактам
           target: "/path/on/server"  # Путь на сервере, куда нужно развернуть
           debug: true  # Включите отладку для получения дополнительных логов
