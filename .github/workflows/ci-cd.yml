@@ -23,7 +23,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: "14" # Specify your Node.js version
+          node-version: "14" # Укажите вашу версию Node.js
 
       - name: Install dependencies
         run: |
@@ -45,6 +45,6 @@ jobs:
         with:
           host: 90.156.230.50
           username: binniev
-          password: ${{ secrets.SSH_PASSWORD }}  # Store your SSH password in GitHub Secrets
-          source: "./${{ matrix.app }}/dist/*"  # Adjust the path to your build artifacts
-          target: "/path/on/server"  # Specify the target path on your server
+          password: ${{ secrets.SSH_PASSWORD }}  # Храните ваш SSH пароль в GitHub Secrets
+          source: "./${{ matrix.app }}/dist/*"  # Укажите путь к вашим собранным артефактам
+          target: "/path/on/server"  # Укажите путь на сервере, куда вы хотите развернуть
