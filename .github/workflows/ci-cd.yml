@@ -23,7 +23,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: "14" # Укажите вашу версию Node.js
+          node-version: "14" # Specify your Node.js version
 
       - name: Install dependencies
         run: |
@@ -39,3 +39,12 @@ jobs:
         run: |
           cd ${{ matrix.app }}
           npm run build
+
+      - name: Deploy to Server
+        uses: appleboy/scp-action@master
+        with:
+          host: 90.156.230.50
+          username: binniev
+          password: ${{ secrets.SSH_PASSWORD }}  # Store your SSH password in GitHub Secrets
+          source: "./${{ matrix.app }}/dist/*"  # Adjust the path to your build artifacts
+          target: "/path/on/server"  # Specify the target path on your server
