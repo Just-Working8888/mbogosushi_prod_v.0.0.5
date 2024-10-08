@@ -25,7 +25,7 @@ export const createBiling = createAsyncThunk(
                 dispatch(createCart({
                     data: {
                         session_key: setSessionKey(),
-                        discount_amount: 1,
+                        discount_amount: 0,
                         promo_code: false
                     }
                 })).then((res: any) => {

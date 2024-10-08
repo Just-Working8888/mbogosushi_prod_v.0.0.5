@@ -98,7 +98,7 @@ const OrderForm: React.FC = () => {
         const data = localStorage.getItem('user_id') ? {
             billing_receipt_type: values.billing_receipt_type,
             user_id: localStorage.getItem('user_id'),
-            delivery_price: "250",
+            delivery_price: "300",
             // delivery_price: delivery.data.price,
             street: adres,
             phone: values.phone,
@@ -111,7 +111,7 @@ const OrderForm: React.FC = () => {
             points_used: Number(poooint) // Добавляем количество использованных баллов
         } : {
             billing_receipt_type: values.billing_receipt_type,
-            delivery_price: "250",
+            delivery_price: "300",
             // delivery_price: delivery.data.price,
             street: adres,
             phone: values.phone,
