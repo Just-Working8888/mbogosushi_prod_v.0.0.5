@@ -303,7 +303,7 @@ const OrderForm: React.FC = () => {
 
                     {
                         receiptType === 'Доставка' && <>
-                            <p>Адресc: {AdressTitle} </p>
+                            <p>Адресc: {adres} </p>
                             <p>Доставка: 320 </p>
 
                         </>
