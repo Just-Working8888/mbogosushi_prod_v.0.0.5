@@ -32,7 +32,6 @@ const OrderForm: React.FC = () => {
     const { data } = useAppSelector((state) => state.cart);
     const discounts = data.discount_amount
     const points = useAppSelector((state) => state.point);
-    const delivery = useAppSelector((state) => state.delivary);
     const poooint = data?.points_used
     const AdressTitle = useAppSelector((state) => state.adresses.adressTitle);
     const loyaltyPoints = useAppSelector((state) => state.user.data?.loyalty_points || 0); // Баллы клиента
@@ -84,7 +83,7 @@ const OrderForm: React.FC = () => {
     ) || 0)
     const totalPrice = (data.items?.reduce(
         (acc: number, item: any) => acc + parseFloat(item.product.price) * item.quantity, 0
-    ) || 0) - data.discount_amount - pointsToUse;
+    ) || 0) - data.discount_amount - pointsToUse + 320;
 
     useEffect(() => {
         if (receiptType === 'Доставка') {
@@ -98,7 +97,7 @@ const OrderForm: React.FC = () => {
         const data = localStorage.getItem('user_id') ? {
             billing_receipt_type: values.billing_receipt_type,
             user_id: localStorage.getItem('user_id'),
-            delivery_price: "300",
+            delivery_price: "320",
             // delivery_price: delivery.data.price,
             street: adres,
             phone: values.phone,
@@ -111,7 +110,7 @@ const OrderForm: React.FC = () => {
             points_used: Number(poooint) // Добавляем количество использованных баллов
         } : {
             billing_receipt_type: values.billing_receipt_type,
-            delivery_price: "300",
+            delivery_price: "320",
             // delivery_price: delivery.data.price,
             street: adres,
             phone: values.phone,
@@ -295,23 +294,23 @@ const OrderForm: React.FC = () => {
                 }
                 <br />
                 <h3>Итого: {totalPrice} c</h3>
+
+
                 <div className="order-details">
                     <p>Стоимость товаров: {totalPricePRODUCT} c</p>
                     <p>Скидка: {data.discount_amount}</p>
                     <p>Потрачено баллов:{data.points_used}</p>
+
                     {
                         receiptType === 'Доставка' && <>
                             <p>Адресc: {AdressTitle} </p>
-                            <p>Растояние: {delivery.data.distanse}</p>
-                            <p>Примерное время доставки: {delivery.data.time as any}</p></>
+                            <p>Доставка: 320 </p>
+
+                        </>
                     }
                 </div>
-
-                {/* <Button type="primary" size="large" block>
-                    Перейти к оплате
-                </Button> */}
             </div>
-        </div >
+        </div>
     );
 };
 
