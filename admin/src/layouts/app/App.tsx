@@ -203,10 +203,11 @@ export const AppLayout = ({ children }: AppLayoutProps) => {
           <Content
             style={{
               margin: `0 0 0 ${collapsed ? 0 : '200px'}`,
-              background: '#ebedf0',
+              background: '#ebedf078',
               borderRadius: collapsed ? 0 : borderRadius,
               transition: 'all .25s',
-              padding: '24px 32px',
+              padding: '24px 250px',
+              boxShadow: '35px 49px 59px 7px #e7e7e7e8 inset',
               minHeight: 360,
             }}
           >

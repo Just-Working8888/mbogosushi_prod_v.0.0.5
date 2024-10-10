@@ -18,7 +18,7 @@ const ExportExcel: React.FC<any> = ({ data }) => {
 
     return (
         <div>
-            <Button icon={<UploadOutlined />} onClick={exportToExcel}>экспорт в exel</Button>
+            <Button type='primary' icon={<UploadOutlined />} onClick={exportToExcel}>экспорт в exel</Button>
         </div>
     );
 };

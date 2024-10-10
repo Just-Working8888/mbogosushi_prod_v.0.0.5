@@ -52,6 +52,7 @@ import { BilingDeteilPage } from '../pages/dashboards/BilingDeteil.tsx';
 import Protected from '../layouts/Protected/Protected.tsx';
 import { CreateBiling } from '../pages/dashboards/CreateBiling.tsx';
 import MainPage from '../pages/CMS/MainPage.tsx';
+import EditSite from '../pages/CMS/EditSite.tsx';
 
 // Custom scroll restoration function
 export const ScrollToTop: React.FC = () => {
@@ -104,6 +105,11 @@ const router = createBrowserRouter([
         index: true,
         path: 'mainpage',
         element: <MainPage />,
+      },
+      {
+        index: true,
+        path: 'edit',
+        element: <EditSite />,
       },
     ]
   },

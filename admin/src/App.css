@@ -10,6 +10,15 @@
 .page-exit {
   opacity: 1;
 }
+.ant-table-tbody > tr > td {
+  border-bottom: 1px solid #E7EAF3B2 !important; /* Yellow color for row borders */
+}
+.ant-btn-primary {
+  color: black !important;;
+}
+.ant-menu-item {
+  padding-left: 25px !important;
+}
 
 .page-exit-active {
   opacity: 0;

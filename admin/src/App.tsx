@@ -11,21 +11,21 @@ import './App.css';
 // This is for reference purposes
 
 export const COLOR = {
-  50: '#e0f1ff',
-  100: '#b0d2ff',
-  200: '#7fb0ff',
-  300: '#4d8bff',
-  400: '#1e79fe',
-  500: '#076ee5',
-  600: '#0062b3',
-  700: '#004f81',
-  800: '#003650',
-  900: '#001620',
-  borderColor: '#E7EAF3B2',
+  50: '#fff2cc',   // light yellow
+  100: '#F5C423',  // gold/yellow
+  200: '#ffcc00',  // bright yellow
+  300: '#ffbf00',  // golden yellow
+  400: '#ff9900',  // deeper yellow
+  500: '#F5C423',  // mid yellow
+  600: '#000000',  // black
+  700: '#333333',  // dark gray (near black)
+  800: '#1a1a1a',  // even darker gray (almost black)
+  900: '#000000',  // black
+  borderColor: '#E7EAF3B2',  // semi-transparent yellow for borders
 };
 
 function App() {
-  
+
   return (
     <HelmetProvider>
       <ConfigProvider

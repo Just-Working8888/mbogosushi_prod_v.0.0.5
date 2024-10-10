@@ -1,9 +1,35 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&display=swap');
+
 :root {
-  font-family: 'Lato', sans-serif;
+  font-family: "Nunito Sans", sans-serif !important;
+}
+
+* {
+  font-family: "Nunito Sans", sans-serif !important;
+  font-weight: 600;
 }
 
 body {
   margin: 0;
+}
+
+.sexulauiostrov {
+  width: 100px;
+  height: 500px;
+  border-radius: 10px;
+  position: fixed;
+  padding: 1rem;
+  border: 1px solid #efefef4e;
+  overflow: hidden;
+  background-color: white;
+  transition: 0.3s;
+  right: 10px;
+  box-shadow: 10px -3px 34px -14px rgba(196, 196, 196, 0.44);
+
+}
+
+.sexulauiostrov:hover {
+  width: 500px;
 }
 
 /* .ant-menu,.ant-layout-sider{
@@ -25,10 +51,10 @@ body {
 
 /* MainPage.css */
 .main-page-container {
-position: relative;
+  position: relative;
   margin: 0 auto;
   padding: 20px;
-background-color: white;
+  background-color: white;
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
@@ -49,4 +75,9 @@ background-color: white;
 
 .custom-form .ant-btn {
   width: 100%;
+  color: #201500;
+}
+
+.ant-segmented {
+  background-color: #fff2cc;
 }

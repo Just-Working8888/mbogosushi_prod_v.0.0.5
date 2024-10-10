@@ -318,7 +318,7 @@ export const EcommerceDashboardPage = () => {
               title="Общий объем продаж"
               extra={
                 <>
-                  <Button onClick={() => setState(!state)}>{!state ? "Открыть" : 'Закрыть'}</Button>
+                  <Button type='primary' onClick={() => setState(!state)}>{!state ? "Открыть" : 'Закрыть'}</Button>
                   <Popover content="Total sales over period x" title="Total sales">
                     <Button icon={<QuestionOutlined />} {...POPOVER_BUTTON_PROPS} />
 
@@ -342,7 +342,14 @@ export const EcommerceDashboardPage = () => {
           </Col>
 
           <Col span={24}>
-            <Card title="Билинги" extra={<Space><Link to={'/dashboards/createbiling'}><Button>Создать Билинг</Button></Link> <Button disabled={selectedItems.length > 0 ? false : true} danger onClick={handleDelete}>удалить</Button><ExportExcel data={selectedItems} /><Button disabled={selectedItems.length > 0 ? false : true} onClick={showModal}>экспорт</Button></Space>}>
+            <Card title="Билинги" extra={<Space>
+
+              <Link to={'/dashboards/createbiling'}>
+                <Button type='primary'>Создать Билинг</Button>
+              </Link>
+
+              <ExportExcel data={selectedItems} /><Button type='primary' disabled={selectedItems.length > 0 ? false : true} onClick={showModal}>экспорт</Button>
+              <Button disabled={selectedItems.length > 0 ? false : true} danger onClick={handleDelete}>удалить</Button>    </Space>}>
               {error ? (
                 <Alert
                   message="Error"

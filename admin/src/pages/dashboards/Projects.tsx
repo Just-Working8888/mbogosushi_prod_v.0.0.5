@@ -89,33 +89,31 @@ export const ProjectsDashboardPage = () => {
       yField: 'revenue',
       seriesField: 'name',
 
-      /** set color */
-      // color: ['#1ca9e6', '#f88c24'],
+      /** Set black and yellow alternating colors */
+      color: ['#1a1a1a', '#F5C423', '#F5C423', '#1a1a1a'], // Black and yellow alternating colors
 
-      /** Set spacing */
-      // marginRatio: 0.1,
+      /** Set column style with border radius */
+      columnStyle: {
+        radius: [5, 5, 0, 0], // Rounded top corners
+      },
+
+      /** Add space between grouped columns */
+      marginRatio: 0.1, // Adjust the spacing between columns (higher value = more space)
+
       label: {
         // Label data label position can be manually configured
         position: 'middle',
-        // 'top', 'middle', 'bottom'
-        // Configurable additional layout method
         layout: [
-          // Column chart data label position automatically adjusted
-          {
-            type: 'interval-adjust-position',
-          }, // Data label anti-obstruction
-          {
-            type: 'interval-hide-overlap',
-          }, // Data label text color automatically adjusted
-          {
-            type: 'adjust-color',
-          },
+          { type: 'interval-adjust-position' },
+          { type: 'interval-hide-overlap' },
+          { type: 'adjust-color' },
         ],
       },
     };
     // @ts-ignore
     return <Column {...config} />;
-  };
+};
+
 
   return (
     <div>
@@ -163,9 +161,13 @@ export const ProjectsDashboardPage = () => {
           <RevenueCard title="Посещаемость сайта
 " value={mainLoading ? <Spin /> : mainData?.main_page_visits[mainData?.main_page_visits?.length - 1]?.visits_display} diff={280} />
         </Col>
-        <Col xs={24} sm={12} lg={6}>
+        {/* <Col xs={24} sm={12} lg={6}>
           <RevenueCard title="Меню по QR
 " value={mainLoading ? <Spin /> : mainData?.menu_visits[mainData?.menu_visits?.length - 1]?.visits_display} diff={180} />
+        </Col> */}
+        <Col xs={24} sm={12} lg={6}>
+          <RevenueCard title="Меню по QR
+" value={90} diff={180} />
         </Col>
         <Col xs={24} sm={12} lg={6}>
           <RevenueCard title="Новые биллинги
@@ -210,8 +212,8 @@ export const ProjectsDashboardPage = () => {
             title="Продажи"
             extra={
               <Space>
-                <Button icon={<CloudUploadOutlined />}>Импорт</Button>
-                <Button icon={<PlusOutlined />}>Новый Билинг</Button>
+                <Button  type="primary" icon={<CloudUploadOutlined />}>Импорт</Button>
+                <Button  type="primary" icon={<PlusOutlined />}>Новый Билинг</Button>
               </Space>
             }
             tabList={PROJECT_TABS}
