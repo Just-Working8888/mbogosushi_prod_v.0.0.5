@@ -1,4 +1,3 @@
-import React from 'react'
 import { Helmet } from 'react-helmet-async'
 import { PageHeader } from '../../components'
 import { HomeOutlined, PieChartOutlined } from '@ant-design/icons'

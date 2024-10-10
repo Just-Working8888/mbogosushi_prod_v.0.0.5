@@ -1,10 +1,9 @@
 // IslandComponent.tsx
 import React, { useState } from 'react';
-import { Button, Select, Upload, message, Collapse, Space, ColorPicker, Flex } from 'antd';
+import { Button, Upload, message, Collapse, Space, ColorPicker, Flex } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
 import ColorsForm from '../SettingsForm/ColorsForm';
 
-const { Option } = Select;
 const { Panel } = Collapse;
 
 interface IslandComponentProps {
@@ -21,6 +20,8 @@ const IslandComponent: React.FC<IslandComponentProps> = ({ onColorChange, onLogo
             onColorChange(color);
         }
     };
+    console.log(handleColorChange);
+
 
     const handleLogoChange = (file: any) => {
         const isValidFileType = file.type === 'image/png' || file.type === 'image/jpeg';
