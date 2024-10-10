@@ -46,7 +46,8 @@ const EditSite = () => {
                     ]}
                 />
                 <IslandComponent />
-                <iframe src="https://mnogonew.vercel.app/" style={{ width: '100%', height: '70vh', borderRadius: '10px' }} frameBorder="0"></iframe>
+                <iframe src="https://editmenu.vercel.app/" style={{ width: '100%', height: '70vh', borderRadius: '10px' }} frameBorder="0"></iframe>
+                
             </div>
 
         </>

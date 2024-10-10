@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { Button, Select, Upload, message, Collapse, Space, ColorPicker, Flex } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
+import ColorsForm from '../SettingsForm/ColorsForm';
 
 const { Option } = Select;
 const { Panel } = Collapse;
@@ -72,6 +73,7 @@ const IslandComponent: React.FC<IslandComponentProps> = ({ onColorChange, onLogo
                         </Panel>
                     </Collapse>
                 </Space>
+                <ColorsForm />
             </div>
         </div>
     );

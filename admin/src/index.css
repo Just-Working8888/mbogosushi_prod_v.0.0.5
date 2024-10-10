@@ -20,7 +20,7 @@ body {
   position: fixed;
   padding: 1rem;
   border: 1px solid #efefef4e;
-  overflow: hidden;
+  overflow: auto;
   background-color: white;
   transition: 0.3s;
   right: 10px;
