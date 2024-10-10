@@ -167,6 +167,15 @@ const items: MenuProps['items'] = [
       undefined,
       false // Добавляем disabled здесь
     ),
+    getItem(
+      <Link to={'/content/edit'}>Редактировать сайт</Link>,
+      'edit',
+      null,
+      undefined,
+      undefined,
+      false // Добавляем disabled здесь
+    ),
+
   ]),
 
   getItem('скоро', 'pages', null, [], 'group'),
