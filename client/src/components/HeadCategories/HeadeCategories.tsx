@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, Flex } from 'antd';
+import { Button } from 'antd';
 import { useAppDispatch, useAppSelector } from '../../store/hook';
 import { CaretDownOutlined, CaretUpOutlined } from '@ant-design/icons';
 import { setCategory, setOffcet } from '../../store/slices/windowSlice';
@@ -16,7 +16,10 @@ const CategoryList: React.FC = () => {
     console.log(setALl);
 
     const targetId = useAppSelector((state) => state.scroll.targetId);
-
+    const handleNavigate = (path: string) => {
+        navigate(path, { replace: true });
+        handleScroll();
+    };
     const handleScroll = () => {
         if (targetId) {
             const targetElement = document.getElementById(targetId);
@@ -26,29 +29,30 @@ const CategoryList: React.FC = () => {
         }
     };
     return (
-        <Flex className='categoriesSex'>
-            <Button
-                onClick={() => {
-                    dispatch(setOffcet(1))
-                    dispatch(clearData())
-                    dispatch(setCategory(0))
-                    handleScroll()
-                }}
-
-                type={
-                    menuprops.category === 0
-                        ? 'primary'
-                        : 'text'}>
-                Все
-            </Button>
-            {data.results
-                .slice(0, all === false ? 6 : data.results.length)
-                .map((category) =>
+        <div className="navbar__pages">
+            <div className="navbar__pages-wrapper">
+                <Button
+                    onClick={() => {
+                        dispatch(setOffcet(1))
+                        dispatch(clearData())
+                        dispatch(setCategory(0))
+                        handleNavigate('/')
+                        handleScroll()
+                    }}
+                    type={
+                        menuprops.category === 0
+                            ? 'primary'
+                            : 'text'}>
+                    Все
+                </Button>
+                {data.results.map((category) =>
                     <Button
+                        key={category.id}
                         onClick={() => {
                             dispatch(setOffcet(1))
                             dispatch(clearData())
                             dispatch(setCategory(category.id))
+                            handleNavigate('/')
                             handleScroll()
                         }}
                         type={
@@ -59,17 +63,14 @@ const CategoryList: React.FC = () => {
                     </Button>
                 )}
 
-            <Button
-                type="dashed"
-
-                icon={all ? <CaretUpOutlined /> : <CaretDownOutlined />}
-
-                onClick={() => navigate('/categories')}>
-                {all
-                    ? 'Скрыть'
-                    : "Показать все"}
-            </Button>
-        </Flex>
+                <Button
+                    type="dashed"
+                    icon={all ? <CaretUpOutlined /> : <CaretDownOutlined />}
+                    onClick={() => setALl(!all)}>
+                    {all ? 'Скрыть' : "Показать все"}
+                </Button>
+            </div>
+        </div>
     );
 };
 

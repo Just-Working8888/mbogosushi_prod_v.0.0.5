@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Button, Flex, Input } from 'antd';
-import { CaretDownOutlined, CaretUpOutlined, SearchOutlined } from '@ant-design/icons';
+import { CaretDownOutlined, CaretUpOutlined, PhoneOutlined } from '@ant-design/icons';
 import classes from './Header.module.scss';
 import { useAppDispatch, useAppSelector } from '../../store/hook';
 import { fetchCategories } from '../../store/reducers/Categories';
@@ -15,15 +15,12 @@ import { CSSTransition } from 'react-transition-group';
 import './Header.module.scss';  // Подключаем файл стилей
 import { fetchProduct } from '../../store/reducers/productReduser';
 import UserProfileDrawer from '../Profile/Profile';
-const scrollToTop = () => {
-    window.scrollTo({
-        top: 0,
-        behavior: "smooth" // плавный скролл
-    });
-};
+
 const Header: React.FC = () => {
     const [isScrolled, setIsScrolled] = useState(false);
     const [showSearch, setShowSearch] = useState(false);
+    console.log(setShowSearch);
+    
     const [auth, setAuth] = useState(false);
     const targetId = useAppSelector((state) => state.scroll.targetId);
     const navigate = useNavigate();
@@ -62,9 +59,7 @@ const Header: React.FC = () => {
         dispatch(fetchCategories({}));
     }, [menuprops]);
 
-    const toggleSearch = () => {
-        setShowSearch(!showSearch);
-    };
+
 
     const handleScroll = () => {
         if (targetId) {
@@ -95,7 +90,7 @@ const Header: React.FC = () => {
             {!isScrolled ? (
                 <header className={classes.header}>
                     <Flex wrap='wrap' gap={10} justify="space-between" align="center">
-                        <Flex gap={26} align="center">
+                        <Flex justify='center' gap={26} align="center" wrap>
                             <div onClick={() => navigate('/')} style={{ cursor: 'pointer' }}>
                                 <img
                                     src="https://mnogosuhi.vercel.app/static/media/blackLogo%20(1).38e8ec556aedb0f78b19.png"
@@ -104,20 +99,26 @@ const Header: React.FC = () => {
                                 />
                             </div>
                             <AuthModal visible={auth} onClose={() => setAuth(false)} />
-<div>
-<a href="https://api.whatsapp.com/send/?phone=996550030040&text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5%21%0A%0A%D0%9F%D0%B8%D1%88%D1%83+%D0%B8%D0%B7+%D0%BF%D1%80%D0%B8%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D1%8F+2%D0%93%D0%98%D0%A1.%0A%0A&type=phone_number&app_absent=0">
+                            <Flex gap={10}>
+                                <div>
+                                    <a href="https://api.whatsapp.com/send/?phone=996550030040&text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5%21%0A%0A%D0%9F%D0%B8%D1%88%D1%83+%D0%B8%D0%B7+%D0%BF%D1%80%D0%B8%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D1%8F+2%D0%93%D0%98%D0%A1.%0A%0A&type=phone_number&app_absent=0">
 
-<Button style={{height:'50px'}} type='primary' icon={<img height={30} src={'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/whatsapp-white-icon.png'} />}>
-Cвязаться с нами
-</Button>
-</a>
-</div>
-                            <div>
-                                <a href="tel:+996 700 03 00 40">0 700‒03‒00‒40</a>
-                                <p>Звонок по телефону</p>
+                                        <Button style={{ height: '50px' }} type='primary' icon={<img height={20} src={'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/whatsapp-white-icon.png'} />}>
+                                            Cвязаться с нами
+                                        </Button>
+                                    </a>
+                                </div>
+                                <div>
+                                    <a style={{ color: 'white' }} href="tel:+996 700 03 00 40">
+                                        <Button icon={<PhoneOutlined />} style={{ height: '50px' }} type='primary'>
 
-                               
-                            </div>
+                                            Звонок по телефону
+
+                                        </Button>
+
+                                    </a>
+                                </div>
+                            </Flex>
                         </Flex>
                         <div>
                             <Protected fallback={<Button style={{ height: '40px', borderRadius: '10px' }} type="primary" onClick={() => setAuth(true)}>
@@ -131,7 +132,7 @@ Cвязаться с нами
             ) : (
                 <header className={classes.scrolledHeader}>
                     <nav className="navbar">
-                        <div onClick={() => {
+                        {/* <div onClick={() => {
                             scrollToTop()
                             navigate('/')
                         }} style={{ cursor: 'pointer' }}>
@@ -140,7 +141,7 @@ Cвязаться с нами
                                 width={50}
                                 alt=""
                             />
-                        </div>
+                        </div> */}
                         <div className="navbar__pages">
                             <div className="navbar__pages-wrapper">
                                 <Button
@@ -183,7 +184,7 @@ Cвязаться с нами
                                 </Button>
                             </div>
                         </div>
-                        <Flex gap={10}>
+                        {/* <Flex gap={10}>
                             <div className={classes.mobnone}>
                                 <CartDrawer />
                             </div>
@@ -197,7 +198,7 @@ Cвязаться с нами
 
 
                             </div>
-                        </Flex>
+                        </Flex> */}
                     </nav>
 
                     <CSSTransition

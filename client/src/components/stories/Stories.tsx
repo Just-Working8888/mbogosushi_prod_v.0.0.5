@@ -69,6 +69,7 @@ const StoriesSlider: React.FC = () => {
             <img
               src={story.image}
               alt="story-preview"
+              className='sexstory-image'
               style={{
                 width: '100%',
                 height: '350px',

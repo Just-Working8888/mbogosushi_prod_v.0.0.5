@@ -21,6 +21,10 @@
     width: 100%;
 }
 
+.ReactModal__Overlay {
+    z-index: 999999 !important;
+}
+
 .rest {
     .ant-card-head-title {
         color: green;
@@ -688,6 +692,10 @@
             align-items: center;
             justify-content: center;
         }
+    }
+
+    .sexstory-image {
+        height: 200px !important;
     }
 
     .pizza-card .pizza-info .pizza-description {

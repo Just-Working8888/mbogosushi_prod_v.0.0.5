@@ -1,0 +1,1 @@
+(function(){"use strict";importScripts("https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"),self.onmessage=async function(t){const{imgData:o,imgWidth:n,imgHeight:c,options:i}=t.data,{jsPDF:a}=jspdf,s=new a(i.jsPDF);s.addImage(o,"JPEG",0,0,n,c);const d=s.output("blob");self.postMessage(d)}})();
