@@ -211,6 +211,14 @@
     }
 }
 
+.ReactModal__Overlay {
+    background-color: #000 !important;
+}
+
+.ReactModal__Content {
+    border: none !important;
+}
+
 .inCart {
     background-color: #FF6347 !important;
 
@@ -398,6 +406,7 @@
         &-wrapper {
             display: flex;
             overflow-x: auto;
+            gap: 5px;
             padding: 10px 0;
             scroll-behavior: smooth;
             max-width: 100%;
@@ -484,7 +493,7 @@
         }
 
         &__pages {
-       
+
 
             .navbar__page {
                 margin: 0 5px;

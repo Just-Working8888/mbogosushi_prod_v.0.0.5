@@ -42,7 +42,7 @@ const CategoryList: React.FC = () => {
                     type={
                         menuprops.category === 0
                             ? 'primary'
-                            : 'text'}>
+                            : 'default'}>
                     Все
                 </Button>
                 {data.results.map((category) =>
@@ -58,7 +58,7 @@ const CategoryList: React.FC = () => {
                         type={
                             menuprops.category === category.id
                                 ? 'primary'
-                                : 'text'}>
+                                : 'default'}>
                         {category.title}
                     </Button>
                 )}

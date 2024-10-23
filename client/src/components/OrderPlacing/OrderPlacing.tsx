@@ -174,7 +174,16 @@ const OrderForm: React.FC = () => {
                                 <Radio value="Самовывоз">Самовывоз</Radio>
                             </Radio.Group>
                         </Form.Item>
-
+                        {receiptType === 'Доставка' && (
+                                              <>
+                                    <Input onChange={(e) => setAdres(e.target.value)} placeholder='Адрес' />
+                                    {/* <MapTest />
+                            <SearchComponent /> */}
+                                    <br />
+                                    <br />
+                                </>
+              
+                        )}
                         <Form.Item initialValue="cash" label="Метод оплаты" name="payment_method">
                             <Select defaultValue="cash" onChange={handlePaymentMethodChange}>
                                 {/* <Option value="bankCard">Банковская карта</Option> */}
@@ -228,21 +237,10 @@ const OrderForm: React.FC = () => {
                         </Form.Item>
                     </Form>
                 </div>
-                {receiptType === 'Доставка' && (
-                <div className="address-section">
-                    <h2> Адрес доставки</h2>
-                    <br />
-                    <>
-                        <Input onChange={(e) => setAdres(e.target.value)} placeholder='Адрес' />
-                        {/* <MapTest />
-                            <SearchComponent /> */}
-                        <br />
-                    </>
-                </div>
-            )}
+
             </div>
-           
-           
+
+
             <div className="order-summary-section he">
                 <div className="">
                     <h2><Flex justify='space-between'> Корзина <Button icon={<DeleteOutlined />} className="clear-cart-btn">
@@ -277,7 +275,7 @@ const OrderForm: React.FC = () => {
                         )}
                     />
                 </div>
-                
+
                 <br />
                 {!data.promo_code &&
                     <Protected fallback={<p>Авторизуйтесь чтобы использовать промокод</p>}>
@@ -312,9 +310,9 @@ const OrderForm: React.FC = () => {
                         </>
                     }
                 </div>
-                
+
             </div>
-            
+
         </div>
     );
 };
