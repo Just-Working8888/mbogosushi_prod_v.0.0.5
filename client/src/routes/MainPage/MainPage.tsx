@@ -18,7 +18,7 @@ function MainPage() {
                 <CategoryList />
                 <br />
                 <StoriesSlider />
-                <ProductList />
+                {/* <ProductList /> */}
                 <PizzaList />
 
 
