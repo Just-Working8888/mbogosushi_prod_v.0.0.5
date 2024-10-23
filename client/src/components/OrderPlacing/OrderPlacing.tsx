@@ -83,7 +83,7 @@ const OrderForm: React.FC = () => {
     ) || 0)
     const totalPrice = (data.items?.reduce(
         (acc: number, item: any) => acc + parseFloat(item.product.price) * item.quantity, 0
-    ) || 0) - data.discount_amount - pointsToUse + 320;
+    ) || 0) - data.discount_amount - pointsToUse;
 
     useEffect(() => {
         if (receiptType === 'Доставка') {
@@ -163,18 +163,7 @@ const OrderForm: React.FC = () => {
     return (
         <div className="order-container">
             <div className="he">
-                {receiptType === 'Доставка' && (
-                    <div className="address-section">
-                        <h2> Адрес доставки</h2>
-                        <br />
-                        <>
-                            <Input onChange={(e) => setAdres(e.target.value)} placeholder='Адрес' />
-                            {/* <MapTest />
-                            <SearchComponent /> */}
-                            <br />
-                        </>
-                    </div>
-                )}
+
                 <div className="personal-info-section">
                     <h2> Информация</h2>
 
@@ -186,9 +175,9 @@ const OrderForm: React.FC = () => {
                             </Radio.Group>
                         </Form.Item>
 
-                        <Form.Item initialValue="bankCard" label="Метод оплаты" name="payment_method">
-                            <Select defaultValue="bankCard" onChange={handlePaymentMethodChange}>
-                                <Option value="bankCard">Банковская карта</Option>
+                        <Form.Item initialValue="cash" label="Метод оплаты" name="payment_method">
+                            <Select defaultValue="cash" onChange={handlePaymentMethodChange}>
+                                {/* <Option value="bankCard">Банковская карта</Option> */}
                                 <Option value="cash">Наличные</Option>
                                 <Option value="eWallet">Электронный кошелек</Option>
                             </Select>
@@ -239,8 +228,21 @@ const OrderForm: React.FC = () => {
                         </Form.Item>
                     </Form>
                 </div>
+                {receiptType === 'Доставка' && (
+                <div className="address-section">
+                    <h2> Адрес доставки</h2>
+                    <br />
+                    <>
+                        <Input onChange={(e) => setAdres(e.target.value)} placeholder='Адрес' />
+                        {/* <MapTest />
+                            <SearchComponent /> */}
+                        <br />
+                    </>
+                </div>
+            )}
             </div>
-
+           
+           
             <div className="order-summary-section he">
                 <div className="">
                     <h2><Flex justify='space-between'> Корзина <Button icon={<DeleteOutlined />} className="clear-cart-btn">
@@ -275,6 +277,7 @@ const OrderForm: React.FC = () => {
                         )}
                     />
                 </div>
+                
                 <br />
                 {!data.promo_code &&
                     <Protected fallback={<p>Авторизуйтесь чтобы использовать промокод</p>}>
@@ -293,7 +296,7 @@ const OrderForm: React.FC = () => {
                     </Protected>
                 }
                 <br />
-                <h3>Итого: {totalPrice} c</h3>
+                <h3>Итого: {totalPrice} c <p>без учета доставки</p></h3>
 
 
                 <div className="order-details">
@@ -309,7 +312,9 @@ const OrderForm: React.FC = () => {
                         </>
                     }
                 </div>
+                
             </div>
+            
         </div>
     );
 };
