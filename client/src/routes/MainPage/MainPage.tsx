@@ -3,7 +3,7 @@ import { Helmet } from 'react-helmet-async'
 import '../../App.scss'
 import CategoryList from '../../components/HeadCategories/HeadeCategories'
 import PizzaList from '../../components/PizzaList/PizzaList'
-import StoriesSlider from '../../components/stories/Stories'
+// import StoriesSlider from '../../components/stories/Stories'
 
 function MainPage() {
 
@@ -16,7 +16,7 @@ function MainPage() {
             <div className="container">
                 <CategoryList />
                 <br />
-                <StoriesSlider />
+                {/* <StoriesSlider /> */}
                 {/* <ProductList /> */}
                 <PizzaList />
 
